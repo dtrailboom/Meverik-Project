@@ -9,6 +9,9 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
+// ⚠️ Webhooks MUST come before express.json()
+app.use('/webhooks', require('./src/routes/webhookRoutes'));
+
 // Body parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
