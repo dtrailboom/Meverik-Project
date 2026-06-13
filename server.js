@@ -6,6 +6,8 @@ const sessionConfig = require('./src/config/session');
 
 const app = express();
 
+app.set('trust proxy', 1); // Railway proxy fix
+
 // Connect to MongoDB
 connectDB();
 
