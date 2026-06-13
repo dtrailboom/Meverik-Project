@@ -1,8 +1,12 @@
 const { stripe, PLANS, TOPUP_PACKS } = require('../config/stripe');
 const User = require('../models/User');
 const Transaction = require('../models/Transaction');
+const {
+  sendWelcomeEmail,
+  sendTopupConfirmationEmail,
+} = require('../services/emailService');
 
-// POST /portal/topup/checkout — create Stripe Checkout for a top-up pack
+// POST /portal/api/topup — create Stripe Checkout for a top-up pack
 const createTopupCheckout = async (req, res) => {
   try {
     const { pack } = req.body;
@@ -41,7 +45,7 @@ const handleWebhook = async (req, res) => {
 
   try {
     event = stripe.webhooks.constructEvent(
-      req.body, // raw body required — see webhookRoutes.js
+      req.body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
@@ -53,12 +57,12 @@ const handleWebhook = async (req, res) => {
   try {
     switch (event.type) {
 
-      // Subscription activated after register or plan change
       case 'checkout.session.completed': {
         const session = event.data.object;
         const userId = session.metadata?.userId;
         const plan = session.metadata?.plan;
 
+        // Subscription activated
         if (session.mode === 'subscription' && plan && userId) {
           const planData = PLANS[plan];
           const user = await User.findById(userId);
@@ -68,7 +72,7 @@ const handleWebhook = async (req, res) => {
           user.planTokensPerMonth = planData.tokens;
           user.stripeSubscriptionId = session.subscription;
           user.subscriptionStatus = 'active';
-          user.tokenBalance += planData.tokens; // first month tokens
+          user.tokenBalance += planData.tokens;
           user.subscriptionRenewsAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
           await user.save();
 
@@ -80,9 +84,19 @@ const handleWebhook = async (req, res) => {
             tokensAdded: planData.tokens,
             stripeSessionId: session.id,
           });
+
+          // Welcome email
+          sendWelcomeEmail({
+            to: user.email,
+            name: user.name,
+            businessName: user.businessName,
+            plan,
+            tokenBalance: user.tokenBalance,
+            portalUrl: process.env.APP_URL + '/portal',
+          });
         }
 
-        // One-time top-up completed
+        // Top-up completed
         if (session.mode === 'payment' && session.metadata?.type === 'topup') {
           const { userId, pack, tokensToAdd } = session.metadata;
           const user = await User.findById(userId);
@@ -100,11 +114,22 @@ const handleWebhook = async (req, res) => {
             tokensAdded: tokens,
             stripeSessionId: session.id,
           });
+
+          // Top-up confirmation email
+          const updatedUser = await User.findById(userId);
+          sendTopupConfirmationEmail({
+            to: updatedUser.email,
+            name: updatedUser.name,
+            tokensAdded: tokens,
+            newBalance: updatedUser.tokenBalance,
+            amountPaid: packData.amount,
+            portalUrl: process.env.APP_URL + '/portal',
+          });
         }
         break;
       }
 
-      // Monthly subscription invoice paid → refill tokens
+      // Monthly renewal — refill tokens
       case 'invoice.paid': {
         const invoice = event.data.object;
         if (invoice.billing_reason !== 'subscription_cycle') break;
@@ -132,7 +157,6 @@ const handleWebhook = async (req, res) => {
         break;
       }
 
-      // Payment failed — mark subscription
       case 'invoice.payment_failed': {
         const invoice = event.data.object;
         const customer = await stripe.customers.retrieve(invoice.customer);
@@ -153,7 +177,6 @@ const handleWebhook = async (req, res) => {
         break;
       }
 
-      // Subscription cancelled
       case 'customer.subscription.deleted': {
         const sub = event.data.object;
         await User.findOneAndUpdate(
