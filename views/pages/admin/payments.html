@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payments — Meverik Admin</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <style>body{font-family:'Inter',sans-serif;}.teal{color:#1D9E75;}.bg-teal{background-color:#1D9E75;}.bg-teal-soft{background-color:#E1F5EE;}.border-teal{border-color:#1D9E75;}.hover-teal:hover{background-color:#0F6E56;}</style>
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; } svg { width: 1rem; height: 1rem; } button { cursor: pointer; } .btn-signout:hover { background:#F9FAFB; color:#374151; border-color:#D1D5DB; }</style>
 </head>
 <body class="bg-gray-50 min-h-screen">
 <div class="flex min-h-screen">
-  <aside class="w-52 min-w-52 bg-white border-r border-gray-100 flex flex-col">
+  <aside class="w-52 min-w-52 bg-white border-r border-gray-100 flex flex-col sticky top-0 h-screen">
     <div class="px-5 py-5 border-b border-gray-100"><div class="text-base font-semibold">Meverik<span class="teal">.</span> <span class="text-xs font-normal text-gray-400">Admin</span></div></div>
     <nav class="flex-1 py-3 flex flex-col gap-0.5">
-      <a href="/admin" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>Tickets</a>
-      <a href="/admin/clients" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Clients</a>
-      <a href="/admin/tokens" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Tokens</a>
-      <a href="/admin/payments" class="flex items-center gap-2.5 px-5 py-2.5 text-sm font-medium teal bg-teal-soft border-l-2 border-teal"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>Payments</a>
-      <a href="/admin/settings" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Settings</a>
+      <a href="/admin" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>Tickets</a>
+      <a href="/admin/clients" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Clients</a>
+      <a href="/admin/tokens" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Tokens</a>
+      <a href="/admin/payments" class="flex items-center gap-2.5 px-5 py-2.5 text-sm font-medium teal bg-teal-soft border-l-2 border-teal"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>Payments</a>
+      <a href="/admin/settings" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Settings</a>
     </nav>
-    <div class="px-5 py-4 border-t border-gray-100"><div class="text-sm font-medium text-gray-700">Admin</div><button onclick="logout()" class="mt-3 w-full text-xs text-gray-400 border border-gray-200 rounded-lg py-2 hover:bg-gray-50">Sign out</button></div>
+    <div class="px-5 py-4 border-t border-gray-100"><div class="text-sm font-medium text-gray-700">Admin</div><button id="logout-btn" class="btn-signout mt-3 w-full text-xs text-gray-400 border border-gray-200 rounded-lg py-2 transition-all">Sign out</button></div>
   </aside>
 
   <div class="flex-1 flex flex-col min-w-0">
@@ -35,10 +36,38 @@
         <div class="bg-gray-100 rounded-xl p-4"><div class="text-xs text-gray-400 mb-1.5">Failed payments</div><div class="text-2xl font-semibold text-red-500" id="m-failed">—</div></div>
       </div>
 
+      <div class="bg-white border border-gray-200 rounded-xl overflow-hidden mb-5">
+        <div class="px-5 py-3.5 border-b border-gray-100 flex items-center justify-between">
+          <span class="text-sm font-medium">Live EUR exchange rates</span>
+          <span id="er-status" class="text-xs bg-green-50 text-green-600 border border-green-200 px-2 py-1 rounded-lg">Loading...</span>
+        </div>
+        <div class="p-5">
+          <div id="er-pinned" class="grid grid-cols-3 gap-3 mb-4"></div>
+          <div class="flex gap-3 mb-4">
+            <input type="number" id="er-amount" value="59" class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none" placeholder="Amount in EUR">
+            <select id="er-currency" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none">
+              <option>USD</option><option>GBP</option><option>CHF</option>
+              <option>JPY</option><option>CAD</option><option>AUD</option>
+            </select>
+          </div>
+          <div class="bg-gray-50 rounded-lg px-4 py-3 flex items-center justify-between">
+            <div>
+              <div class="text-xs text-gray-400" id="er-from-label">€59.00 EUR =</div>
+              <div class="text-lg font-medium teal" id="er-to-val">—</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-gray-400">Rate</div>
+              <div class="text-sm font-medium text-gray-700" id="er-rate-val">—</div>
+            </div>
+          </div>
+          <div class="text-xs text-gray-400 text-right mt-2" id="er-date"></div>
+        </div>
+      </div>
+
       <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <div class="px-5 py-3.5 border-b border-gray-100 flex items-center justify-between">
           <span class="text-sm font-medium">All transactions</span>
-          <select id="type-filter" onchange="filterTx()" class="text-xs border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none">
+          <select id="type-filter" class="text-xs border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none">
             <option value="">All types</option><option value="subscription">Subscription</option><option value="topup">Top-up</option><option value="token_refill">Token refill</option>
           </select>
         </div>
@@ -50,49 +79,6 @@
     </main>
   </div>
 </div>
-<script>
-  let allTx=[];
-  const typeColors={subscription:'bg-purple-50 text-purple-600',topup:'bg-green-50 text-green-600',token_refill:'bg-blue-50 text-blue-600',refund:'bg-amber-50 text-amber-600'};
-  const typeLabels={subscription:'Subscription',topup:'Top-up',token_refill:'Refill',refund:'Refund'};
-
-  async function load(){
-    try{
-      const res=await fetch('/admin/api/transactions');
-      if(res.status===401||res.status===403){window.location='/auth/login';return;}
-      const{transactions}=await res.json();
-      allTx=transactions;
-      const totalRevenue=transactions.filter(t=>t.status==='succeeded'&&t.amountEur).reduce((s,t)=>s+t.amountEur,0);
-      const subRevenue=transactions.filter(t=>t.type==='subscription'&&t.status==='succeeded'&&t.amountEur).reduce((s,t)=>s+t.amountEur,0);
-      const topupRevenue=transactions.filter(t=>t.type==='topup'&&t.status==='succeeded'&&t.amountEur).reduce((s,t)=>s+t.amountEur,0);
-      const failed=transactions.filter(t=>t.status==='failed').length;
-      document.getElementById('m-total').textContent='€'+totalRevenue.toFixed(2);
-      document.getElementById('m-subs').textContent='€'+subRevenue.toFixed(2);
-      document.getElementById('m-topups').textContent='€'+topupRevenue.toFixed(2);
-      document.getElementById('m-failed').textContent=failed;
-      renderTx(transactions);
-    }catch(e){console.error(e);}
-  }
-
-  function filterTx(){
-    const type=document.getElementById('type-filter').value;
-    renderTx(type?allTx.filter(t=>t.type===type):allTx);
-  }
-
-  function renderTx(txs){
-    const el=document.getElementById('tx-list');
-    if(!txs.length){el.innerHTML='<div class="px-5 py-10 text-center text-sm text-gray-400">No transactions found</div>';return;}
-    el.innerHTML=txs.map(t=>`
-      <div class="grid grid-cols-12 gap-3 px-5 py-3.5 border-b border-gray-50 last:border-0 items-center text-sm hover:bg-gray-50 transition-all">
-        <div class="col-span-3"><div class="font-medium text-gray-700">${t.user?.businessName||t.user?.name||'—'}</div><div class="text-xs text-gray-400">${t.user?.email||''}</div></div>
-        <div class="col-span-4 text-gray-600">${t.description||'—'}</div>
-        <div class="col-span-2"><span class="text-xs font-medium px-2 py-1 rounded-full ${typeColors[t.type]||'bg-gray-100 text-gray-500'}">${typeLabels[t.type]||t.type}</span></div>
-        <div class="col-span-1 font-medium ${t.status==='failed'?'text-red-500':''}">${t.amountEur?'€'+t.amountEur.toFixed(2):t.tokensAdded?'+'+t.tokensAdded+' tkn':'—'}</div>
-        <div class="col-span-1"><span class="text-xs ${t.status==='failed'?'text-red-500':t.status==='pending'?'text-amber-500':'text-green-600'} capitalize">${t.status}</span></div>
-        <div class="col-span-1 text-xs text-gray-400">${new Date(t.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</div>
-      </div>`).join('');
-  }
-
-  async function logout(){await fetch('/auth/logout',{method:'POST'});window.location='/';}
-  load();
-</script>
-</body></html>
+<script src="/js/admin-payments.js"></script>
+</body>
+</html>
