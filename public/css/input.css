@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+.teal { color: #1D9E75; }
+.bg-teal { background-color: #1D9E75; }
+.bg-teal-soft { background-color: #E1F5EE; }
+.border-teal { border-color: #1D9E75; }
+.hover-teal:hover { background-color: #0F6E56; }
