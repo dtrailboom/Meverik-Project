@@ -11,10 +11,10 @@ document.querySelectorAll('.save-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const orig = btn.textContent;
     btn.textContent = '✓ Saved';
-    btn.classList.add('opacity-75');
+    btn.classList.add('is-saved');
     setTimeout(() => {
       btn.textContent = orig;
-      btn.classList.remove('opacity-75');
+      btn.classList.remove('is-saved');
     }, 2000);
   });
 });

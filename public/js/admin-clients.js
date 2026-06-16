@@ -1,7 +1,7 @@
 let allClients = [];
 let currentClientId = null;
-const planColors = { starter: 'bg-gray-100 text-gray-600', growth: 'bg-purple-50 text-purple-600', pro: 'bg-blue-50 text-blue-600' };
-const subColors = { active: 'bg-green-50 text-green-600', past_due: 'bg-red-50 text-red-600', canceled: 'bg-gray-100 text-gray-500', trialing: 'bg-amber-50 text-amber-600' };
+const planColors = { starter: 'badge-gray', growth: 'badge-purple', pro: 'badge-blue' };
+const subColors = { active: 'badge-green', past_due: 'badge-red', canceled: 'badge-gray', trialing: 'badge-amber' };
 
 async function load() {
   try {
@@ -31,35 +31,35 @@ function filterClients() {
 function renderClients(clients) {
   const el = document.getElementById('clients-list');
   if (!clients.length) {
-    el.innerHTML = '<div class="px-5 py-10 text-center text-sm text-gray-400">No clients found</div>';
+    el.innerHTML = '<div class="empty-state">No clients found</div>';
     return;
   }
   el.innerHTML = clients.map(c => {
     const pct = c.planTokensPerMonth > 0 ? Math.round((c.tokenBalance / c.planTokensPerMonth) * 100) : 0;
-    const barColor = pct === 0 ? 'bg-red-400' : pct < 30 ? 'bg-amber-400' : 'bg-green-500';
-    return `<div class="grid grid-cols-12 gap-3 px-5 py-3.5 border-b border-gray-50 last:border-0 items-center text-sm hover:bg-gray-50 transition-all">
-      <div class="col-span-3">
-        <div class="font-medium text-gray-800">${c.businessName || c.name}</div>
-        <div class="text-xs text-gray-400">${c.email}</div>
+    const barClass = pct === 0 ? 'is-empty' : pct < 30 ? 'is-low' : 'is-ok';
+    return `<div class="dgrid dgrid-row">
+      <div class="col-name">
+        <div class="client-name">${c.businessName || c.name}</div>
+        <div class="client-email">${c.email}</div>
       </div>
-      <div class="col-span-2"><span class="text-xs font-medium px-2 py-1 rounded-full capitalize ${planColors[c.plan] || 'bg-gray-100 text-gray-500'}">${c.plan || 'none'}</span></div>
-      <div class="col-span-3">
-        <div class="flex items-center gap-2">
-          <div class="flex-1 bg-gray-100 rounded-full h-1.5"><div class="${barColor} h-1.5 rounded-full" style="width:${Math.min(pct, 100)}%"></div></div>
-          <span class="text-xs text-gray-400 w-14 text-right">${c.tokenBalance}/${c.planTokensPerMonth}</span>
+      <div class="col-plan"><span class="badge cap ${planColors[c.plan] || 'badge-gray'}">${c.plan || 'none'}</span></div>
+      <div class="col-tokens">
+        <div class="token-meter">
+          <div class="progress progress-sm"><div class="progress-bar ${barClass}" style="width:${Math.min(pct, 100)}%"></div></div>
+          <span class="token-meter-label">${c.tokenBalance}/${c.planTokensPerMonth}</span>
         </div>
       </div>
-      <div class="col-span-1"><span class="text-xs font-medium px-2 py-1 rounded-full capitalize ${subColors[c.subscriptionStatus] || 'bg-gray-100 text-gray-500'}">${c.subscriptionStatus || 'inactive'}</span></div>
-      <div class="col-span-1 text-xs text-gray-400">${new Date(c.createdAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}</div>
-      <div class="col-span-2 flex items-center justify-center gap-2">
-        <button data-id="${c._id}" data-name="${c.businessName || c.name}" title="Add tokens" class="token-btn btn-token w-10 h-10 flex items-center justify-center border border-teal rounded-lg text-teal transition-all">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      <div class="col-status"><span class="badge cap ${subColors[c.subscriptionStatus] || 'badge-gray'}">${c.subscriptionStatus || 'inactive'}</span></div>
+      <div class="col-date">${new Date(c.createdAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}</div>
+      <div class="col-actions">
+        <button data-id="${c._id}" data-name="${c.businessName || c.name}" title="Add tokens" class="token-btn icon-btn icon-btn-teal">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         </button>
-        <button data-id="${c._id}" title="Edit client" class="edit-btn btn-edit w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg text-gray-500 transition-all">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+        <button data-id="${c._id}" title="Edit client" class="edit-btn icon-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
         </button>
-        <button data-id="${c._id}" data-name="${c.businessName || c.name}" title="Delete client" class="delete-btn btn-delete w-10 h-10 flex items-center justify-center border border-red-300 rounded-lg text-red-500 transition-all">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        <button data-id="${c._id}" data-name="${c.businessName || c.name}" title="Delete client" class="delete-btn icon-btn icon-btn-danger">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
         </button>
       </div>
     </div>`;

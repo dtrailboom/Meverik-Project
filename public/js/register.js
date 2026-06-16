@@ -29,7 +29,7 @@ function setLoading(loading) {
   const btn = document.getElementById('submit-btn');
   btn.disabled = loading;
   btn.innerHTML = loading
-    ? '<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Redirecting to Stripe…'
+    ? '<svg class="spinner" fill="none" viewBox="0 0 24 24"><circle class="spinner-track" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="spinner-head" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Redirecting to Stripe…'
     : 'Pay with Stripe →';
 }
 
@@ -53,11 +53,11 @@ document.getElementById('password').addEventListener('input', function () {
   if (/[0-9]/.test(val)) score++;
   if (/[^A-Za-z0-9]/.test(val)) score++;
 
-  const colors = ['', 'bg-red-400', 'bg-orange-400', 'bg-yellow-400', 'bg-green-500'];
+  const states = ['', 'is-weak', 'is-fair', 'is-good', 'is-strong'];
   const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
   for (let i = 1; i <= 4; i++) {
     const bar = document.getElementById(`bar-${i}`);
-    bar.className = `h-1 flex-1 rounded ${i <= score ? colors[score] : 'bg-gray-200'}`;
+    bar.className = 'strength-bar' + (i <= score ? ' ' + states[score] : '');
   }
   document.getElementById('strength-label').textContent = val.length > 0 ? labels[score] : '';
 });

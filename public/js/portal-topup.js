@@ -20,13 +20,8 @@ async function load() {
 
 function selectPack(p) {
   selectedPack = p;
-  document.querySelectorAll('.pack-card').forEach(c => {
-    c.classList.remove('selected', 'border-2', 'border-teal');
-    c.classList.add('border', 'border-gray-200');
-  });
-  const sel = document.querySelector(`[data-pack="${p}"]`);
-  sel.classList.add('selected', 'border-2', 'border-teal');
-  sel.classList.remove('border', 'border-gray-200');
+  document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected'));
+  document.querySelector(`[data-pack="${p}"]`).classList.add('selected');
   updatePreview();
 }
 
@@ -40,7 +35,7 @@ function updatePreview() {
 async function startCheckout() {
   const btn = document.getElementById('pay-btn');
   btn.disabled = true;
-  btn.innerHTML = '<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Redirecting…';
+  btn.innerHTML = '<svg class="spinner" fill="none" viewBox="0 0 24 24"><circle class="spinner-track" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="spinner-head" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Redirecting…';
   try {
     const res = await fetch('/portal/api/topup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pack: selectedPack }) });
     const data = await res.json();

@@ -1,9 +1,9 @@
 const statusColors = {
-  new: 'bg-blue-50 text-blue-600',
-  in_progress: 'bg-amber-50 text-amber-600',
-  in_review: 'bg-purple-50 text-purple-600',
-  delivered: 'bg-green-50 text-green-600',
-  blocked: 'bg-red-50 text-red-600',
+  new: 'badge-blue',
+  in_progress: 'badge-amber',
+  in_review: 'badge-purple',
+  delivered: 'badge-green',
+  blocked: 'badge-red',
 };
 const statusLabels = {
   new: 'New', in_progress: 'In progress',
@@ -47,8 +47,9 @@ async function loadData() {
     const pct = user.planTokensPerMonth > 0
       ? Math.round((user.tokenBalance / user.planTokensPerMonth) * 100)
       : 0;
-    document.getElementById('token-bar').style.width = Math.min(pct, 100) + '%';
-    document.getElementById('token-bar').className = `h-2 rounded-full transition-all ${pct < 20 ? 'bg-red-400' : pct < 50 ? 'bg-amber-400' : 'bg-teal'}`;
+    const bar = document.getElementById('token-bar');
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.className = 'progress-bar' + (pct < 20 ? ' is-empty' : pct < 50 ? ' is-low' : '');
     document.getElementById('token-bar-label').textContent = `${user.tokenBalance} / ${user.planTokensPerMonth}`;
 
     if (user.websiteUrl) {
@@ -60,18 +61,18 @@ async function loadData() {
 
     const container = document.getElementById('recent-tickets');
     if (tickets.length === 0) {
-      container.innerHTML = `<div class="px-5 py-8 text-center">
-        <p class="text-xs text-gray-400 mb-3">No requests yet</p>
-        <a href="/portal/request" class="text-xs teal font-medium hover:underline">Submit your first request →</a>
+      container.innerHTML = `<div class="empty-state">
+        <p>No requests yet</p>
+        <a href="/portal/request" class="link-accent">Submit your first request →</a>
       </div>`;
     } else {
       container.innerHTML = tickets.slice(0, 4).map(t => `
-        <div class="flex items-center justify-between px-5 py-3 border-b border-gray-50 last:border-0">
+        <div class="ticket-item">
           <div>
-            <div class="text-sm font-medium text-gray-800">#${t.ticketNumber} · ${t.title}</div>
-            <div class="text-xs text-gray-400 mt-0.5 capitalize">${t.complexity} · ${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</div>
+            <div class="ticket-item-title">#${t.ticketNumber} · ${t.title}</div>
+            <div class="ticket-item-meta">${t.complexity} · ${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</div>
           </div>
-          <span class="text-xs font-medium px-2 py-1 rounded-full ${statusColors[t.status] || 'bg-gray-100 text-gray-500'}">${statusLabels[t.status] || t.status}</span>
+          <span class="badge ${statusColors[t.status] || 'badge-gray'}">${statusLabels[t.status] || t.status}</span>
         </div>
       `).join('');
     }

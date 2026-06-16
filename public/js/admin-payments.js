@@ -1,9 +1,9 @@
 let allTx = [];
 const typeColors = {
-  subscription: 'bg-purple-50 text-purple-600',
-  topup: 'bg-green-50 text-green-600',
-  token_refill: 'bg-blue-50 text-blue-600',
-  refund: 'bg-amber-50 text-amber-600',
+  subscription: 'badge-purple',
+  topup: 'badge-green',
+  token_refill: 'badge-blue',
+  refund: 'badge-amber',
 };
 const typeLabels = {
   subscription: 'Subscription',
@@ -46,18 +46,22 @@ function filterTx() {
 function renderTx(txs) {
   const el = document.getElementById('tx-list');
   if (!txs.length) {
-    el.innerHTML = '<div class="px-5 py-10 text-center text-sm text-gray-400">No transactions found</div>';
+    el.innerHTML = '<div class="empty-state">No transactions found</div>';
     return;
   }
-  el.innerHTML = txs.map(t => `
-    <div class="grid grid-cols-12 gap-3 px-5 py-3.5 border-b border-gray-50 last:border-0 items-center text-sm hover:bg-gray-50 transition-all">
-      <div class="col-span-3"><div class="font-medium text-gray-700">${t.user?.businessName || t.user?.name || '—'}</div><div class="text-xs text-gray-400">${t.user?.email || ''}</div></div>
-      <div class="col-span-4 text-gray-600">${t.description || '—'}</div>
-      <div class="col-span-2"><span class="text-xs font-medium px-2 py-1 rounded-full ${typeColors[t.type] || 'bg-gray-100 text-gray-500'}">${typeLabels[t.type] || t.type}</span></div>
-      <div class="col-span-1 font-medium ${t.status === 'failed' ? 'text-red-500' : ''}">${t.amountEur ? '€' + t.amountEur.toFixed(2) : t.tokensAdded ? '+' + t.tokensAdded + ' tkn' : '—'}</div>
-      <div class="col-span-1"><span class="text-xs ${t.status === 'failed' ? 'text-red-500' : t.status === 'pending' ? 'text-amber-500' : 'text-green-600'} capitalize">${t.status}</span></div>
-      <div class="col-span-1 text-xs text-gray-400">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</div>
-    </div>`).join('');
+  el.innerHTML = txs.map(t => {
+    const statusClass = t.status === 'failed' ? 'is-failed' : t.status === 'pending' ? 'is-pending' : '';
+    const amount = t.amountEur ? '€' + t.amountEur.toFixed(2) : t.tokensAdded ? '+' + t.tokensAdded + ' tkn' : '—';
+    return `
+    <div class="dgrid dgrid-row">
+      <div class="col-client"><div class="cell-strong">${t.user?.businessName || t.user?.name || '—'}</div><div class="client-email">${t.user?.email || ''}</div></div>
+      <div class="col-desc"><span class="cell-desc">${t.description || '—'}</span></div>
+      <div class="col-type"><span class="badge ${typeColors[t.type] || 'badge-gray'}">${typeLabels[t.type] || t.type}</span></div>
+      <div class="col-amount"><span class="cell-amount ${t.status === 'failed' ? 'is-danger' : ''}">${amount}</span></div>
+      <div class="col-status"><span class="tx-status ${statusClass}">${t.status}</span></div>
+      <div class="col-date"><span class="cell-muted">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span></div>
+    </div>`;
+  }).join('');
 }
 
 async function logout() {
@@ -81,11 +85,11 @@ async function fetchRates() {
       { code: 'JPY', flag: '🇯🇵' }, { code: 'CAD', flag: '🇨🇦' }, { code: 'AUD', flag: '🇦🇺' },
     ];
     document.getElementById('er-pinned').innerHTML = pinned.map(c => `
-      <div class="bg-gray-50 rounded-lg p-3">
-        <div class="text-base mb-1">${c.flag}</div>
-        <div class="text-xs text-gray-400">${c.code}</div>
-        <div class="text-sm font-medium text-gray-700">${rates[c.code]?.toFixed(4) || '—'}</div>
-        <div class="text-xs text-gray-400">1 EUR = ${rates[c.code]?.toFixed(2) || '—'} ${c.code}</div>
+      <div class="rate-cell">
+        <div class="rate-flag">${c.flag}</div>
+        <div class="rate-code">${c.code}</div>
+        <div class="rate-value">${rates[c.code]?.toFixed(4) || '—'}</div>
+        <div class="rate-conv">1 EUR = ${rates[c.code]?.toFixed(2) || '—'} ${c.code}</div>
       </div>`).join('');
 
     document.getElementById('er-date').textContent = 'Rates as of ' + data.date + ' · exchangerate-api.com';

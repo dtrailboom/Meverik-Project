@@ -5,20 +5,20 @@ async function load() {
     const { clients } = await res.json();
     const el = document.getElementById('token-balances');
     if (!clients.length) {
-      el.innerHTML = '<div class="px-5 py-8 text-center text-sm text-gray-400">No clients yet</div>';
+      el.innerHTML = '<div class="empty-state">No clients yet</div>';
       return;
     }
     el.innerHTML = clients.map(c => {
       const pct = c.planTokensPerMonth > 0 ? Math.round((c.tokenBalance / c.planTokensPerMonth) * 100) : 0;
-      const barColor = pct === 0 ? 'bg-red-400' : pct < 30 ? 'bg-amber-400' : 'bg-green-500';
-      return `<div class="flex items-center gap-3 px-5 py-3 border-b border-gray-50 last:border-0">
-        <div class="flex-1 min-w-0">
-          <div class="text-sm font-medium text-gray-700 truncate">${c.businessName || c.name}</div>
-          <div class="text-xs text-gray-400 capitalize">${c.plan || 'no plan'} · refills ${c.subscriptionRenewsAt ? new Date(c.subscriptionRenewsAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '—'}</div>
+      const barClass = pct === 0 ? 'is-empty' : pct < 30 ? 'is-low' : 'is-ok';
+      return `<div class="balance-item">
+        <div class="balance-item-main">
+          <div class="balance-item-name">${c.businessName || c.name}</div>
+          <div class="balance-item-meta">${c.plan || 'no plan'} · refills ${c.subscriptionRenewsAt ? new Date(c.subscriptionRenewsAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '—'}</div>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="text-xs text-gray-400 w-10 text-right">${c.tokenBalance}/${c.planTokensPerMonth}</span>
-          <div class="w-16 bg-gray-100 rounded-full h-1.5"><div class="${barColor} h-1.5 rounded-full" style="width:${Math.min(pct, 100)}%"></div></div>
+        <div class="balance-item-side">
+          <span class="balance-item-label">${c.tokenBalance}/${c.planTokensPerMonth}</span>
+          <div class="progress progress-sm progress-fixed"><div class="progress-bar ${barClass}" style="width:${Math.min(pct, 100)}%"></div></div>
         </div>
       </div>`;
     }).join('');

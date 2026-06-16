@@ -28,14 +28,8 @@ function updateCostPreview() {
 
 function selectComplexity(c) {
   selectedComplexity = c;
-  ['small', 'medium', 'large'].forEach(x => {
-    const el = document.getElementById('cc-' + x);
-    el.classList.remove('selected', 'border-2', 'border-teal');
-    el.classList.add('border', 'border-gray-200');
-  });
-  const sel = document.getElementById('cc-' + c);
-  sel.classList.add('selected', 'border-2', 'border-teal');
-  sel.classList.remove('border', 'border-gray-200');
+  document.querySelectorAll('.complexity-card').forEach(el => el.classList.remove('selected'));
+  document.getElementById('cc-' + c).classList.add('selected');
   updateCostPreview();
 }
 
@@ -63,16 +57,16 @@ function goToStep(n) {
   ['step-1', 'step-2', 'step-3'].forEach((id, i) => {
     document.getElementById(id).classList.toggle('hidden', i + 1 !== n);
   });
-  document.getElementById('step-2-num').className = `w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${n >= 2 ? 'bg-teal text-white' : 'bg-gray-200 text-gray-400'}`;
-  document.getElementById('step-2-text').className = n >= 2 ? 'teal' : 'text-gray-400';
-  document.getElementById('step-3-num').className = `w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${n >= 3 ? 'bg-teal text-white' : 'bg-gray-200 text-gray-400'}`;
-  document.getElementById('step-3-text').className = n >= 3 ? 'teal' : 'text-gray-400';
+  document.getElementById('step-2-num').className = 'wstep-badge' + (n >= 2 ? ' is-active' : '');
+  document.getElementById('step-2-text').className = 'wstep-text' + (n >= 2 ? ' is-active' : '');
+  document.getElementById('step-3-num').className = 'wstep-badge' + (n >= 3 ? ' is-active' : '');
+  document.getElementById('step-3-text').className = 'wstep-text' + (n >= 3 ? ' is-active' : '');
 }
 
 async function submitRequest() {
   const btn = document.getElementById('submit-btn');
   btn.disabled = true;
-  btn.innerHTML = '<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Submitting…';
+  btn.innerHTML = '<svg class="spinner" fill="none" viewBox="0 0 24 24"><circle class="spinner-track" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="spinner-head" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Submitting…';
   try {
     const res = await fetch('/portal/api/tickets', {
       method: 'POST',
