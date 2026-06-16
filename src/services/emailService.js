@@ -74,6 +74,7 @@ const sendEmail = async ({ to, subject, html }) => {
   try {
     await transporter.sendMail({
       from: process.env.EMAIL_FROM || 'Meverik <hello@meverik.com>',
+      replyTo: process.env.REPLY_TO_EMAIL || process.env.ADMIN_EMAIL,  // ← add this
       to,
       subject,
       html,
