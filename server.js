@@ -6,8 +6,13 @@ const sessionConfig = require('./src/config/session');
 
 const app = express();
 
+app.set('trust proxy', 1); // Railway proxy fix
+
 // Connect to MongoDB
 connectDB();
+
+// ⚠️ Webhooks MUST come before express.json()
+app.use('/webhooks', require('./src/routes/webhookRoutes'));
 
 // Body parsing
 app.use(express.json());
