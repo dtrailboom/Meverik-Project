@@ -10,11 +10,22 @@
     .complexity-card.selected { border-color: #1D9E75; background-color: #E1F5EE; }
     button { cursor: pointer; }
     .btn-signout:hover { background:#F9FAFB; color:#374151; border-color:#D1D5DB; }
+  
+    /* Mobile sidebar (hamburger) */
+    #app-sidebar { transition: transform 0.25s ease; }
+    @media (max-width: 767px) {
+      #app-sidebar { position: fixed; top: 0; left: 0; height: 100vh; z-index: 50; transform: translateX(-100%); }
+      #app-sidebar.sidebar-open { transform: translateX(0); }
+      #sidebar-overlay { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.3); z-index: 40; }
+      #sidebar-overlay.show { display: block; }
+    }
+    @media (min-width: 768px) { #hamburger-btn { display: none; } }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
+  <div id="sidebar-overlay"></div>
   <div class="flex min-h-screen">
-    <aside class="w-52 min-w-52 bg-white border-r border-gray-100 flex flex-col sticky top-0 h-screen">
+    <aside id="app-sidebar" class="w-52 min-w-52 bg-white border-r border-gray-100 flex flex-col sticky top-0 h-screen">
       <div class="px-5 py-5 border-b border-gray-100"><div class="text-base font-semibold">Meverik<span class="teal">.</span></div><div class="text-xs text-gray-400 mt-0.5" id="sidebar-business">Loading...</div></div>
       <nav class="flex-1 py-3 flex flex-col gap-0.5">
         <a href="/portal" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Overview</a>
@@ -28,7 +39,7 @@
 
     <div class="flex-1 flex flex-col min-w-0">
       <header class="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
-        <h1 class="text-base font-semibold">New request</h1>
+        <div class="flex items-center gap-3"><button id="hamburger-btn" aria-label="Open menu" class="text-gray-500 hover:text-gray-900 transition-all" style="cursor:pointer;"><svg style="width:1.5rem;height:1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button><h1 class="text-base font-semibold">New request</h1></div>
         <div class="flex items-center gap-1.5 bg-teal-soft border border-green-200 rounded-lg px-3 py-1.5 text-xs font-medium teal">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span id="token-count">...</span>
@@ -179,5 +190,17 @@
     </div>
   </div>
   <script src="/js/portal-request.js"></script>
+<script>
+  (function(){
+    var btn = document.getElementById('hamburger-btn');
+    var sb = document.getElementById('app-sidebar');
+    var ov = document.getElementById('sidebar-overlay');
+    function openMenu(){ sb.classList.add('sidebar-open'); ov.classList.add('show'); }
+    function closeMenu(){ sb.classList.remove('sidebar-open'); ov.classList.remove('show'); }
+    if(btn) btn.addEventListener('click', openMenu);
+    if(ov) ov.addEventListener('click', closeMenu);
+    if(sb) sb.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
+  })();
+  </script>
 </body>
 </html>
