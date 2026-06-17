@@ -32,8 +32,8 @@ function renderTickets(tickets) {
       <div class="col-type"><span class="cell-type">${t.complexity}</span></div>
       <div class="col-status"><span class="badge ${statusColors[t.status] || 'badge-gray'}">${statusLabels[t.status] || t.status}</span></div>
       <div class="col-tokens"><span class="cell-muted">${t.tokenCost} token${t.tokenCost > 1 ? 's' : ''}</span></div>
-      <div class="col-date" style="display:flex;align-items:center;justify-content:space-between;">
-        <span class="cell-muted">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>${t.status === 'new' ? `<button data-id="${t._id}" class="cancel-btn link-danger" style="cursor:pointer;background:none;border:none;padding:0;font:inherit;">Cancel</button>` : ''}
+      <div class="col-date">
+        <span class="cell-muted">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>${t.status === 'new' ? `<button data-id="${t._id}" class="cancel-btn link-danger">Cancel</button>` : ''}
       </div>
     </div>`).join('');
 

@@ -1471,3 +1471,50 @@ svg { width: 1rem; height: 1rem; }
   .table-scroll { -webkit-overflow-scrolling: touch; }
   .table-scroll .dgrid { min-width: 640px; }
 }
+/* My Tickets — stacked cards on mobile (instead of horizontal scroll) */
+@media (max-width: 767px) {
+  /* no more horizontal scroll for this table */
+  .tbl-ptickets.table-scroll { overflow-x: visible; }
+  .tbl-ptickets.table-scroll .dgrid { min-width: 0; }
+
+  /* hide the column header row */
+  .tbl-ptickets .dgrid-head { display: none; }
+
+  /* each ticket row becomes a card */
+  .tbl-ptickets .dgrid-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0.75rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--gray-100);
+    border-radius: 0.75rem;
+  }
+  .tbl-ptickets .dgrid-row:hover { background-color: transparent; }
+
+  /* cells become "label : value" rows */
+  .tbl-ptickets .dgrid-row > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .tbl-ptickets .dgrid-row > div::before {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  .tbl-ptickets .col-type::before   { content: "Type"; }
+  .tbl-ptickets .col-status::before { content: "Status"; }
+  .tbl-ptickets .col-tokens::before { content: "Tokens"; }
+  .tbl-ptickets .col-date::before   { content: "Date"; }
+
+  /* title: full-width heading, no label */
+  .tbl-ptickets .col-request { display: block; }
+  .tbl-ptickets .col-request .cell-title { font-size: 0.9375rem; }
+
+  /* date + cancel pushed to the right; bigger tap target for Cancel */
+  .tbl-ptickets .col-date .cell-muted { margin-left: auto; }
+  .tbl-ptickets .col-date .cancel-btn { margin-left: 0.75rem; padding: 0.25rem 0.5rem; }
+}
