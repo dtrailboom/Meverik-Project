@@ -1517,3 +1517,47 @@ svg { width: 1rem; height: 1rem; }
   /* date sits next to its label; Cancel stays on the right */
   .tbl-ptickets .col-date .cancel-btn { margin-left: auto; padding: 0.25rem 0.5rem; }
 }
+
+/* Billing history — stacked cards on mobile (instead of horizontal scroll) */
+@media (max-width: 767px) {
+  /* no more horizontal scroll for this table */
+  .tbl-billing.table-scroll { overflow-x: visible; }
+  .tbl-billing.table-scroll .dgrid { min-width: 0; }
+
+  /* hide the column header row */
+  .tbl-billing .dgrid-head { display: none; }
+
+  /* each transaction row becomes a card */
+  .tbl-billing .dgrid-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0.75rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--gray-100);
+    border-radius: 0.75rem;
+  }
+  .tbl-billing .dgrid-row:hover { background-color: transparent; }
+
+  /* cells become "label  value" rows, left-aligned with a gap */
+  .tbl-billing .dgrid-row > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+  .tbl-billing .dgrid-row > div::before {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  .tbl-billing .col-type::before   { content: "Type"; }
+  .tbl-billing .col-amount::before { content: "Amount"; }
+  .tbl-billing .col-date::before   { content: "Date"; }
+
+  /* description: full-width heading, no label */
+  .tbl-billing .col-desc { display: block; }
+  .tbl-billing .col-desc .cell-strong { font-size: 0.9375rem; }
+}
