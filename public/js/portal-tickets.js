@@ -3,7 +3,7 @@ const statusLabels = { new: 'New', in_progress: 'In progress', in_review: 'In re
 let allTickets = [];
 
 async function load() {
-  const [meRes, tRes] = await Promise.all([fetch('/portal/api/me', { cache: 'no-store' }), fetch('/portal/api/tickets', { cache: 'no-store' })]);
+  const [meRes, tRes] = await Promise.all([fetch('/portal/api/me'), fetch('/portal/api/tickets')]);
   if (meRes.status === 401) { window.location = '/auth/login'; return; }
   const { user } = await meRes.json();
   const { tickets } = await tRes.json();
@@ -32,9 +32,9 @@ function renderTickets(tickets) {
       <div class="col-type"><span class="cell-type">${t.complexity}</span></div>
       <div class="col-status"><span class="badge ${statusColors[t.status] || 'badge-gray'}">${statusLabels[t.status] || t.status}</span></div>
       <div class="col-tokens"><span class="cell-muted">${t.tokenCost} token${t.tokenCost > 1 ? 's' : ''}</span></div>
-      <div class="col-date">
-        <span class="cell-muted">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>${t.status === 'new' ? `<button data-id="${t._id}" class="cancel-btn link-danger">Cancel</button>` : ''}
-      </div>
+      <div class="col-date">${t.status === 'new'
+        ? `<button data-id="${t._id}" class="cancel-btn link-danger">Cancel</button>`
+        : `<span class="cell-muted">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>`}</div>
     </div>`).join('');
 
   document.querySelectorAll('.cancel-btn').forEach(btn => {
