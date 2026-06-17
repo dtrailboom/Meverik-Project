@@ -74,6 +74,13 @@ function renderClients(clients) {
   document.querySelectorAll('.delete-btn').forEach(btn => {
     btn.addEventListener('click', () => deleteClient(btn.dataset.id, btn.dataset.name));
   });
+
+  document.querySelectorAll('#clients-list .dgrid-row').forEach(row => {
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.col-actions')) return;
+      row.classList.toggle('is-open');
+    });
+  });
 }
 
 function openModal(id, name) {

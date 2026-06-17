@@ -1561,3 +1561,83 @@ svg { width: 1rem; height: 1rem; }
   .tbl-billing .col-desc { display: block; }
   .tbl-billing .col-desc .cell-strong { font-size: 0.9375rem; }
 }
+
+/* Admin Clients — collapsible cards on mobile (tap to expand) */
+@media (max-width: 767px) {
+  /* no more horizontal scroll for this table */
+  .tbl-clients.table-scroll { overflow-x: visible; }
+  .tbl-clients.table-scroll .dgrid { min-width: 0; }
+
+  /* hide the column header row */
+  .tbl-clients .dgrid-head { display: none; }
+
+  /* each client row becomes a tappable card */
+  .tbl-clients .dgrid-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0.75rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--gray-100);
+    border-radius: 0.75rem;
+    position: relative;
+    cursor: pointer;
+  }
+  .tbl-clients .dgrid-row:hover { background-color: transparent; }
+
+  /* chevron indicator, top-right; rotates when open */
+  .tbl-clients .dgrid-row::after {
+    content: "";
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--gray-400);
+    border-bottom: 2px solid var(--gray-400);
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+  }
+  .tbl-clients .dgrid-row.is-open::after { transform: rotate(-135deg); }
+
+  /* keep name clear of the chevron */
+  .tbl-clients .col-name { padding-right: 1.5rem; }
+
+  /* collapsed: only name + plan visible */
+  .tbl-clients .col-tokens,
+  .tbl-clients .col-status,
+  .tbl-clients .col-date,
+  .tbl-clients .col-actions { display: none; }
+
+  /* expanded: reveal the rest as label / value rows */
+  .tbl-clients .dgrid-row.is-open .col-tokens,
+  .tbl-clients .dgrid-row.is-open .col-status,
+  .tbl-clients .dgrid-row.is-open .col-date {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+  .tbl-clients .dgrid-row.is-open .col-tokens .token-meter { flex: 1; }
+
+  .tbl-clients .dgrid-row.is-open .col-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.25rem;
+  }
+
+  /* labels for the revealed rows */
+  .tbl-clients .dgrid-row.is-open .col-tokens::before,
+  .tbl-clients .dgrid-row.is-open .col-status::before,
+  .tbl-clients .dgrid-row.is-open .col-date::before {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  .tbl-clients .dgrid-row.is-open .col-tokens::before { content: "Tokens"; }
+  .tbl-clients .dgrid-row.is-open .col-status::before { content: "Status"; }
+  .tbl-clients .dgrid-row.is-open .col-date::before   { content: "Joined"; }
+}
