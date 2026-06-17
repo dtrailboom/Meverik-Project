@@ -1648,3 +1648,88 @@ svg { width: 1rem; height: 1rem; }
   .app-header > .app-header-left:last-child { width: 100%; }
   .input-search { width: auto; flex: 1; min-width: 0; }
 }
+
+/* Admin Payments — collapsible cards on mobile (tap to expand) */
+@media (max-width: 767px) {
+  /* no more horizontal scroll for this table */
+  .tbl-payments.table-scroll { overflow-x: visible; }
+  .tbl-payments.table-scroll .dgrid { min-width: 0; }
+
+  /* hide the column header row */
+  .tbl-payments .dgrid-head { display: none; }
+
+  /* each transaction row becomes a tappable card */
+  .tbl-payments .dgrid-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0.75rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--gray-100);
+    border-radius: 0.75rem;
+    position: relative;
+    cursor: pointer;
+  }
+  .tbl-payments .dgrid-row:hover { background-color: transparent; }
+
+  /* chevron indicator, top-right; rotates when open */
+  .tbl-payments .dgrid-row::after {
+    content: "";
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--gray-400);
+    border-bottom: 2px solid var(--gray-400);
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+  }
+  .tbl-payments .dgrid-row.is-open::after { transform: rotate(-135deg); }
+
+  /* keep client name clear of the chevron */
+  .tbl-payments .col-client { padding-right: 1.5rem; }
+
+  /* amount stays visible in the collapsed summary (with label) */
+  .tbl-payments .col-amount {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+
+  /* collapsed: hide everything except client + amount */
+  .tbl-payments .col-desc,
+  .tbl-payments .col-type,
+  .tbl-payments .col-status,
+  .tbl-payments .col-date { display: none; }
+
+  /* expanded: reveal the rest as label / value rows */
+  .tbl-payments .dgrid-row.is-open .col-desc,
+  .tbl-payments .dgrid-row.is-open .col-type,
+  .tbl-payments .dgrid-row.is-open .col-status,
+  .tbl-payments .dgrid-row.is-open .col-date {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+
+  /* labels */
+  .tbl-payments .col-amount::before,
+  .tbl-payments .dgrid-row.is-open .col-desc::before,
+  .tbl-payments .dgrid-row.is-open .col-type::before,
+  .tbl-payments .dgrid-row.is-open .col-status::before,
+  .tbl-payments .dgrid-row.is-open .col-date::before {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  .tbl-payments .col-amount::before                    { content: "Amount"; }
+  .tbl-payments .dgrid-row.is-open .col-desc::before   { content: "Description"; }
+  .tbl-payments .dgrid-row.is-open .col-type::before   { content: "Type"; }
+  .tbl-payments .dgrid-row.is-open .col-status::before { content: "Status"; }
+  .tbl-payments .dgrid-row.is-open .col-date::before   { content: "Date"; }
+}

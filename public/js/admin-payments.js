@@ -62,6 +62,10 @@ function renderTx(txs) {
       <div class="col-date"><span class="cell-muted">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span></div>
     </div>`;
   }).join('');
+
+  document.querySelectorAll('#tx-list .dgrid-row').forEach(row => {
+    row.addEventListener('click', () => row.classList.toggle('is-open'));
+  });
 }
 
 async function logout() {
