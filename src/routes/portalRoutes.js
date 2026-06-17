@@ -3,10 +3,12 @@ const path = require('path');
 const router = express.Router();
 const { requireLogin } = require('../middleware/auth');
 const { checkTokenBalance } = require('../middleware/tokens');
-const { createTicket, getClientTickets } = require('../controllers/ticketController');
+const { createTicket } = require('../controllers/ticketController'); // getClientTickets entfernt — Logik jetzt inline (C2)
 const { createTopupCheckout } = require('../controllers/stripeController');
 const User = require('../models/User');
 const Transaction = require('../models/Transaction');
+const Ticket = require('../models/Ticket');
+const { respondWith } = require('../utils/respondWith'); // C2: JSON/XML-Helper
 
 router.use(requireLogin);
 
@@ -48,8 +50,32 @@ router.put('/api/me', async (req, res) => {
   }
 });
 
-// GET tickets
-router.get('/api/tickets', getClientTickets);
+// GET tickets — C2: liefert JSON (default) oder XML (?format=xml / Accept: application/xml)
+// JSON-Shape ist identisch zur alten getClientTickets-Version → Frontend bleibt intakt.
+// Mapping: C2 (JSON + XML), M5 (JSON-Responses), M7 (FE konsumiert BE-Endpoint)
+router.get('/api/tickets', async (req, res) => {
+  try {
+    const tickets = await Ticket.find({ client: req.session.userId })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // ObjectIds → String, damit JSON und XML sauber serialisieren
+    const clean = tickets.map(t => ({
+      ...t,
+      _id:    String(t._id),
+      client: t.client ? String(t.client) : undefined,
+    }));
+
+    respondWith(
+      req, res,
+      { tickets: clean },  // JSON → bestehende Shape, Frontend-Code bleibt unverändert
+      { ticket:  clean },  // XML  → <tickets><ticket>…</ticket></tickets>
+      'tickets'            // XML-Root-Element
+    );
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to load tickets.' });
+  }
+});
 
 // POST create ticket
 router.post('/api/tickets', checkTokenBalance, createTicket);
@@ -57,7 +83,6 @@ router.post('/api/tickets', checkTokenBalance, createTicket);
 // DELETE own ticket (only if status is 'new') — M6/M7
 router.delete('/api/tickets/:id', async (req, res) => {
   try {
-    const Ticket = require('../models/Ticket');
     const ticket = await Ticket.findOne({
       _id: req.params.id,
       client: req.session.userId,
@@ -92,7 +117,7 @@ router.get('/api/transactions', async (req, res) => {
 // POST start top-up checkout
 router.post('/api/topup', createTopupCheckout);
 
-// GET weather for client's business location (third external API — C1)
+// GET weather for client's business location (external API — C1)
 router.get('/api/weather', async (req, res) => {
   try {
     const { city } = req.query;
