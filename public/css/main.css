@@ -355,6 +355,7 @@ svg { width: 1rem; height: 1rem; }
   border-radius: var(--radius-lg);
   padding: 0.75rem 1rem;
   transition: var(--transition);
+  white-space: nowrap;
 }
 .btn-block { width: 100%; }
 
@@ -904,7 +905,6 @@ svg { width: 1rem; height: 1rem; }
 .token-info-row { display: flex; justify-content: space-between; }
 .token-info-row + .token-info-row { margin-top: 0.25rem; }
 .token-info-value { font-weight: 500; color: var(--teal); }
-.token-info-note { line-height: 1.5; }
 
 
 /* ---- Lade-Spinner (z.B. Submit-Button) ---- */
@@ -1268,6 +1268,32 @@ svg { width: 1rem; height: 1rem; }
 .lp-nav-links { display: none; align-items: center; gap: 2rem; font-size: 0.875rem; color: var(--gray-500); }
 .lp-nav-links a:hover { color: var(--gray-900); }
 .lp-nav-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+/* Mobile-Menü (nur < 768px sichtbar) */
+.lp-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  cursor: pointer;
+  padding: 0;
+}
+.lp-menu-btn svg { width: 1.25rem; height: 1.25rem; color: var(--gray-700); }
+.lp-mobile-menu {
+  display: none;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 1.5rem 1rem;
+  border-top: 1px solid var(--gray-100);
+}
+.lp-mobile-menu.is-open { display: flex; }
+.lp-mobile-menu a { padding: 0.625rem 0; font-size: 0.9375rem; color: var(--gray-600); }
+.lp-mobile-menu a:hover { color: var(--gray-900); }
+.lp-mobile-menu .lp-mobile-login { border-top: 1px solid var(--gray-100); margin-top: 0.25rem; padding-top: 0.875rem; font-weight: 500; }
 .btn-nav { padding: 0.5rem 1rem; }
 .btn-lg  { padding: 0.875rem 1.75rem; }
 
@@ -1405,8 +1431,13 @@ svg { width: 1rem; height: 1rem; }
   .lp-cta-row .btn { width: auto; }
   .lp-footer-inner { flex-direction: row; }
 }
+@media (max-width: 767px) {
+  .lp-nav-login { display: none; }
+}
 @media (min-width: 768px) {
   .lp-nav-links { display: flex; }
+  .lp-menu-btn { display: none; }
+  .lp-mobile-menu { display: none !important; }
   .lp-grid-4 { grid-template-columns: repeat(4, 1fr); }
   .lp-grid-3 { grid-template-columns: repeat(3, 1fr); }
   .lp-h1 { font-size: 3rem; }
@@ -1418,7 +1449,9 @@ svg { width: 1rem; height: 1rem; }
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100vh;        /* Fallback für ältere Browser */
+    height: 100dvh;       /* berücksichtigt mobile Browser-Leisten */
+    overflow-y: auto;     /* Sicherheitsnetz für sehr kurze Viewports */
     z-index: 50;
     transform: translateX(-100%);
   }
@@ -1435,4 +1468,183 @@ svg { width: 1rem; height: 1rem; }
 @media (max-width: 767px) {
   .table-scroll { -webkit-overflow-scrolling: touch; }
   .table-scroll .dgrid { min-width: 640px; }
+}
+
+/* My Tickets — stacked cards on mobile (instead of horizontal scroll) */
+@media (max-width: 767px) {
+  /* no more horizontal scroll for this table */
+  .tbl-ptickets.table-scroll { overflow-x: visible; }
+  .tbl-ptickets.table-scroll .dgrid { min-width: 0; }
+
+  /* hide the column header row */
+  .tbl-ptickets .dgrid-head { display: none; }
+
+  /* each ticket row becomes a card */
+  .tbl-ptickets .dgrid-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0.75rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--gray-100);
+    border-radius: 0.75rem;
+  }
+  .tbl-ptickets .dgrid-row:hover { background-color: transparent; }
+
+  /* cells become "label  value" rows, left-aligned with a gap */
+  .tbl-ptickets .dgrid-row > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+  .tbl-ptickets .dgrid-row > div::before {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  .tbl-ptickets .col-type::before   { content: "Type"; }
+  .tbl-ptickets .col-status::before { content: "Status"; }
+  .tbl-ptickets .col-tokens::before { content: "Tokens"; }
+  .tbl-ptickets .col-date::before   { content: "Date"; }
+
+  /* title: full-width heading, no label */
+  .tbl-ptickets .col-request { display: block; }
+  .tbl-ptickets .col-request .cell-title { font-size: 0.9375rem; }
+
+  /* date sits next to its label; Cancel stays on the right */
+  .tbl-ptickets .col-date .cancel-btn { margin-left: auto; padding: 0.25rem 0.5rem; }
+}
+
+/* Billing history — stacked cards on mobile (instead of horizontal scroll) */
+@media (max-width: 767px) {
+  /* no more horizontal scroll for this table */
+  .tbl-billing.table-scroll { overflow-x: visible; }
+  .tbl-billing.table-scroll .dgrid { min-width: 0; }
+
+  /* hide the column header row */
+  .tbl-billing .dgrid-head { display: none; }
+
+  /* each transaction row becomes a card */
+  .tbl-billing .dgrid-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0.75rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--gray-100);
+    border-radius: 0.75rem;
+  }
+  .tbl-billing .dgrid-row:hover { background-color: transparent; }
+
+  /* cells become "label  value" rows, left-aligned with a gap */
+  .tbl-billing .dgrid-row > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+  .tbl-billing .dgrid-row > div::before {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  .tbl-billing .col-type::before   { content: "Type"; }
+  .tbl-billing .col-amount::before { content: "Amount"; }
+  .tbl-billing .col-date::before   { content: "Date"; }
+
+  /* description: full-width heading, no label */
+  .tbl-billing .col-desc { display: block; }
+  .tbl-billing .col-desc .cell-strong { font-size: 0.9375rem; }
+}
+
+/* Admin Clients — collapsible cards on mobile (tap to expand) */
+@media (max-width: 767px) {
+  /* no more horizontal scroll for this table */
+  .tbl-clients.table-scroll { overflow-x: visible; }
+  .tbl-clients.table-scroll .dgrid { min-width: 0; }
+
+  /* hide the column header row */
+  .tbl-clients .dgrid-head { display: none; }
+
+  /* each client row becomes a tappable card */
+  .tbl-clients .dgrid-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0.75rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--gray-100);
+    border-radius: 0.75rem;
+    position: relative;
+    cursor: pointer;
+  }
+  .tbl-clients .dgrid-row:hover { background-color: transparent; }
+
+  /* chevron indicator, top-right; rotates when open */
+  .tbl-clients .dgrid-row::after {
+    content: "";
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--gray-400);
+    border-bottom: 2px solid var(--gray-400);
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+  }
+  .tbl-clients .dgrid-row.is-open::after { transform: rotate(-135deg); }
+
+  /* keep name clear of the chevron */
+  .tbl-clients .col-name { padding-right: 1.5rem; }
+
+  /* collapsed: only name + plan visible */
+  .tbl-clients .col-tokens,
+  .tbl-clients .col-status,
+  .tbl-clients .col-date,
+  .tbl-clients .col-actions { display: none; }
+
+  /* expanded: reveal the rest as label / value rows */
+  .tbl-clients .dgrid-row.is-open .col-tokens,
+  .tbl-clients .dgrid-row.is-open .col-status,
+  .tbl-clients .dgrid-row.is-open .col-date {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+  .tbl-clients .dgrid-row.is-open .col-tokens .token-meter { flex: 1; }
+
+  .tbl-clients .dgrid-row.is-open .col-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.25rem;
+  }
+
+  /* labels for the revealed rows */
+  .tbl-clients .dgrid-row.is-open .col-tokens::before,
+  .tbl-clients .dgrid-row.is-open .col-status::before,
+  .tbl-clients .dgrid-row.is-open .col-date::before {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  .tbl-clients .dgrid-row.is-open .col-tokens::before { content: "Tokens"; }
+  .tbl-clients .dgrid-row.is-open .col-status::before { content: "Status"; }
+  .tbl-clients .dgrid-row.is-open .col-date::before   { content: "Joined"; }
+}
+
+/* App header controls wrap below the title on mobile (no horizontal cut-off) */
+@media (max-width: 767px) {
+  .app-header { flex-wrap: wrap; gap: 0.75rem; }
+  .app-header > .app-header-left:last-child { width: 100%; }
+  .input-search { width: auto; flex: 1; min-width: 0; }
 }
