@@ -667,11 +667,13 @@ svg { width: 1rem; height: 1rem; }
 
 /* Spaltenbreiten: Portal-Tickets-Tabelle (eigenes Raster, etwas weiterer Gap) */
 .tbl-ptickets .dgrid { gap: 1rem; }
-.tbl-ptickets .col-request { grid-column: span 5; }
+.tbl-ptickets .col-request { grid-column: span 4; }
 .tbl-ptickets .col-type    { grid-column: span 2; }
 .tbl-ptickets .col-status  { grid-column: span 2; }
 .tbl-ptickets .col-tokens  { grid-column: span 2; }
-.tbl-ptickets .col-date    { grid-column: span 1; }
+.tbl-ptickets .col-date    { grid-column: span 2; display: flex; align-items: center; gap: 0.75rem; }
+.tbl-ptickets .cancel-btn  { margin-left: auto; padding-left: 0.75rem; cursor: pointer; background: none; border: none; font: inherit; }
+.tbl-ptickets .cancel-btn:hover { opacity: 0.75; }
 
 /* Spaltenbreiten: Payments-Tabelle */
 .tbl-payments .col-client { grid-column: span 3; }
@@ -1732,4 +1734,83 @@ svg { width: 1rem; height: 1rem; }
   .tbl-payments .dgrid-row.is-open .col-type::before   { content: "Type"; }
   .tbl-payments .dgrid-row.is-open .col-status::before { content: "Status"; }
   .tbl-payments .dgrid-row.is-open .col-date::before   { content: "Date"; }
+}
+/* Admin Tickets — collapsible cards on mobile (tap to expand) */
+@media (max-width: 767px) {
+  /* no more horizontal scroll for this table */
+  .tbl-tickets.table-scroll { overflow-x: visible; }
+  .tbl-tickets.table-scroll .dgrid { min-width: 0; }
+
+  /* hide the column header row */
+  .tbl-tickets .dgrid-head { display: none; }
+
+  /* each ticket row becomes a tappable card */
+  .tbl-tickets .dgrid-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0.75rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--gray-100);
+    border-radius: 0.75rem;
+    position: relative;
+    cursor: pointer;
+  }
+  .tbl-tickets .dgrid-row:hover { background-color: transparent; }
+
+  /* chevron indicator, top-right; rotates when open */
+  .tbl-tickets .dgrid-row::after {
+    content: "";
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--gray-400);
+    border-bottom: 2px solid var(--gray-400);
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+  }
+  .tbl-tickets .dgrid-row.is-open::after { transform: rotate(-135deg); }
+
+  /* keep client name clear of the chevron */
+  .tbl-tickets .col-client { padding-right: 1.5rem; }
+
+  /* collapsed: only client + status visible */
+  .tbl-tickets .col-request,
+  .tbl-tickets .col-type,
+  .tbl-tickets .col-tokens,
+  .tbl-tickets .col-date,
+  .tbl-tickets .col-action { display: none; }
+
+  /* expanded: reveal the rest as label / value rows */
+  .tbl-tickets .dgrid-row.is-open .col-request,
+  .tbl-tickets .dgrid-row.is-open .col-type,
+  .tbl-tickets .dgrid-row.is-open .col-tokens,
+  .tbl-tickets .dgrid-row.is-open .col-date {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+  .tbl-tickets .dgrid-row.is-open .col-action {
+    display: flex;
+    padding-top: 0.25rem;
+  }
+
+  /* labels (client + status stay unlabelled — self-explanatory) */
+  .tbl-tickets .dgrid-row.is-open .col-request::before,
+  .tbl-tickets .dgrid-row.is-open .col-type::before,
+  .tbl-tickets .dgrid-row.is-open .col-tokens::before,
+  .tbl-tickets .dgrid-row.is-open .col-date::before {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  .tbl-tickets .dgrid-row.is-open .col-request::before { content: "Request"; }
+  .tbl-tickets .dgrid-row.is-open .col-type::before    { content: "Type"; }
+  .tbl-tickets .dgrid-row.is-open .col-tokens::before  { content: "Tokens"; }
+  .tbl-tickets .dgrid-row.is-open .col-date::before    { content: "Date"; }
 }

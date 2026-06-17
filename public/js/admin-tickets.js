@@ -59,6 +59,13 @@ function renderTickets(tickets) {
   document.querySelectorAll('.edit-btn').forEach(btn => {
     btn.addEventListener('click', () => openModal(btn.dataset.id, btn.dataset.status));
   });
+
+  document.querySelectorAll('#tickets-list .dgrid-row').forEach(row => {
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.col-action')) return;
+      row.classList.toggle('is-open');
+    });
+  });
 }
 
 function openModal(id, status) {
