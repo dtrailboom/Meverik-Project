@@ -667,11 +667,13 @@ svg { width: 1rem; height: 1rem; }
 
 /* Spaltenbreiten: Portal-Tickets-Tabelle (eigenes Raster, etwas weiterer Gap) */
 .tbl-ptickets .dgrid { gap: 1rem; }
-.tbl-ptickets .col-request { grid-column: span 5; }
+.tbl-ptickets .col-request { grid-column: span 4; }
 .tbl-ptickets .col-type    { grid-column: span 2; }
 .tbl-ptickets .col-status  { grid-column: span 2; }
 .tbl-ptickets .col-tokens  { grid-column: span 2; }
-.tbl-ptickets .col-date    { grid-column: span 1; }
+.tbl-ptickets .col-date    { grid-column: span 2; display: flex; align-items: center; gap: 0.75rem; }
+.tbl-ptickets .cancel-btn  { margin-left: auto; cursor: pointer; background: none; border: none; padding: 0; font: inherit; }
+.tbl-ptickets .cancel-btn:hover { opacity: 0.75; }
 
 /* Spaltenbreiten: Payments-Tabelle */
 .tbl-payments .col-client { grid-column: span 3; }
