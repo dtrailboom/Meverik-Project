@@ -6,6 +6,32 @@
   <title>Sign up — Meverik</title>
   <link rel="stylesheet" href="/css/main.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* C1 — Domain availability check (self-contained, kann später nach main.css) */
+    .domain-check { margin-top: 14px; }
+    .domain-check-title {
+      font-size: 13px; font-weight: 500; color: #555;
+      margin: 0 0 8px;
+    }
+    .domain-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+    .domain-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: 8px;
+      border: 1px solid #e5e7eb; background: #fafafa;
+      font-size: 14px;
+    }
+    .domain-icon { width: 18px; text-align: center; font-weight: 600; }
+    .domain-name { flex: 1; font-family: inherit; }
+    .domain-status { font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+    .domain-item.is-free    { border-color: #bbf7d0; background: #f0fdf4; }
+    .domain-item.is-free    .domain-icon, .domain-item.is-free    .domain-status { color: #16a34a; }
+    .domain-item.is-taken   { opacity: .7; }
+    .domain-item.is-taken   .domain-icon, .domain-item.is-taken   .domain-status { color: #dc2626; }
+    .domain-item.is-unknown .domain-icon, .domain-item.is-unknown .domain-status { color: #9ca3af; }
+    .domain-loading, .domain-error {
+      list-style: none; font-size: 13px; color: #888; padding: 8px 12px;
+    }
+  </style>
 </head>
 <body class="auth-page">
 <nav class="topbar">
@@ -46,6 +72,13 @@
               <input id="business" type="text" placeholder="Anna's Café" class="input">
             </div>
           </div>
+
+          <!-- C1: Domain availability check -->
+          <div id="domain-check" class="domain-check hidden">
+            <p class="domain-check-title">Available domains for your business</p>
+            <ul id="domain-list" class="domain-list"></ul>
+          </div>
+
           <div>
             <label class="field-label" for="email">Email address</label>
             <input id="email" type="email" autocomplete="email" placeholder="anna@cafe.at" class="input">
