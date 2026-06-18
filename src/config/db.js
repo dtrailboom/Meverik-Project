@@ -6,7 +6,7 @@ const connectDB = async () => {
       serverApi: { version: '1', strict: true, deprecationErrors: true },
       serverSelectionTimeoutMS: 10000,
       family: 4,
-      tls: true,
+      //tls: true,
     });
     console.log('MongoDB connected');
   } catch (err) {
