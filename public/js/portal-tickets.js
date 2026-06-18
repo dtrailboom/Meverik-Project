@@ -35,7 +35,15 @@ function renderTickets(tickets) {
       <div class="col-date">
         <span class="cell-muted">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>${t.status === 'new' ? `<button data-id="${t._id}" class="cancel-btn link-danger">Cancel</button>` : ''}
       </div>
+      ${t.adminReply ? `<div class="ticket-reply"><div class="detail-label">Reply from the team</div><div class="detail-text"></div></div>` : ''}
     </div>`).join('');
+
+  // Fill reply text via textContent (XSS-safe). Order matches the rendered array.
+  const rows = el.querySelectorAll('.dgrid-row');
+  rows.forEach((row, i) => {
+    const r = row.querySelector('.ticket-reply .detail-text');
+    if (r) r.textContent = tickets[i].adminReply || '';
+  });
 
   document.querySelectorAll('.cancel-btn').forEach(btn => {
     btn.addEventListener('click', () => cancelTicket(btn.dataset.id));

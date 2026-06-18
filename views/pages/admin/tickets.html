@@ -71,7 +71,13 @@
 
 <div id="modal" class="modal hidden">
   <div class="modal-card">
-    <h2 class="modal-title">Update ticket status</h2>
+    <h2 class="modal-title">Manage ticket</h2>
+
+    <div class="field">
+      <div class="field-label">Request details</div>
+      <div id="modal-details" class="modal-details">—</div>
+    </div>
+
     <div class="field">
       <label class="field-label" for="modal-status">Status</label>
       <select id="modal-status" class="select">
@@ -82,10 +88,17 @@
         <option value="blocked">Blocked</option>
       </select>
     </div>
+
     <div class="field">
       <label class="field-label" for="modal-notes">Internal note (optional)</label>
       <textarea id="modal-notes" rows="3" placeholder="Add a note for your team..." class="textarea"></textarea>
     </div>
+
+    <div class="field">
+      <label class="field-label" for="modal-reply">Reply to client (shown in their portal)</label>
+      <textarea id="modal-reply" rows="3" placeholder="Write a reply the client will see..." class="textarea"></textarea>
+    </div>
+
     <div class="btn-row">
       <button id="modal-cancel" class="btn btn-outline">Cancel</button>
       <button id="modal-save" class="btn btn-primary">Save</button>

@@ -104,10 +104,10 @@ const getAllTickets = async (req, res) => {
   }
 };
 
-// PATCH /admin/api/tickets/:id — update ticket status (admin only)
+// PATCH /admin/api/tickets/:id — update ticket status / reply (admin only)
 const updateTicketStatus = async (req, res) => {
   try {
-    const { status, notes } = req.body;
+    const { status, notes, adminReply } = req.body;
     const validStatuses = ['new', 'in_progress', 'in_review', 'delivered', 'blocked'];
 
     if (!validStatuses.includes(status)) {
@@ -116,6 +116,14 @@ const updateTicketStatus = async (req, res) => {
 
     const update = { status };
     if (notes) update.notes = notes;
+
+    // Bug 2C — admin reply to the client (empty string clears it)
+    if (adminReply !== undefined) {
+      const trimmed = (adminReply || '').trim();
+      update.adminReply = trimmed;
+      update.adminReplyAt = trimmed ? new Date() : null;
+    }
+
     if (status === 'delivered') update.deliveredAt = new Date();
 
     const ticket = await Ticket.findByIdAndUpdate(req.params.id, update, { new: true })

@@ -13,8 +13,8 @@ const statusLabels = {
 async function loadData() {
   try {
     const [meRes, ticketsRes] = await Promise.all([
-      fetch('/portal/api/me'),
-      fetch('/portal/api/tickets'),
+      fetch('/portal/api/me', { cache: 'no-store' }),
+      fetch('/portal/api/tickets', { cache: 'no-store' }),
     ]);
     if (meRes.status === 401) { window.location = '/auth/login'; return; }
 
@@ -52,11 +52,19 @@ async function loadData() {
     bar.className = 'progress-bar' + (pct < 20 ? ' is-empty' : pct < 50 ? ' is-low' : '');
     document.getElementById('token-bar-label').textContent = `${user.tokenBalance} / ${user.planTokensPerMonth}`;
 
+    // ── Your website (Bug 4) — drive everything from user.websiteUrl ──
+    const urlEl = document.getElementById('website-url');
+    const statusEl = document.getElementById('website-status');
+    const visitEl = document.getElementById('visit-website');
     if (user.websiteUrl) {
-      document.getElementById('website-url').textContent = user.websiteUrl;
-      document.getElementById('visit-website').href = user.websiteUrl.startsWith('http') ? user.websiteUrl : 'https://' + user.websiteUrl;
+      urlEl.textContent = user.websiteUrl;
+      visitEl.href = user.websiteUrl.startsWith('http') ? user.websiteUrl : 'https://' + user.websiteUrl;
+      if (statusEl) statusEl.classList.remove('hidden'); // show "Live" only when a URL exists
+      visitEl.classList.remove('hidden');
     } else {
-      document.getElementById('website-url').textContent = 'Not set yet';
+      urlEl.textContent = 'Not set yet';
+      if (statusEl) statusEl.classList.add('hidden'); // no contradictory "Live" dot
+      visitEl.classList.add('hidden');
     }
 
     const container = document.getElementById('recent-tickets');
