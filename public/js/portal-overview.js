@@ -1,9 +1,9 @@
 const statusColors = {
-  new: 'bg-blue-50 text-blue-600',
-  in_progress: 'bg-amber-50 text-amber-600',
-  in_review: 'bg-purple-50 text-purple-600',
-  delivered: 'bg-green-50 text-green-600',
-  blocked: 'bg-red-50 text-red-600',
+  new: 'badge-blue',
+  in_progress: 'badge-amber',
+  in_review: 'badge-purple',
+  delivered: 'badge-green',
+  blocked: 'badge-red',
 };
 const statusLabels = {
   new: 'New', in_progress: 'In progress',
@@ -13,8 +13,8 @@ const statusLabels = {
 async function loadData() {
   try {
     const [meRes, ticketsRes] = await Promise.all([
-      fetch('/portal/api/me'),
-      fetch('/portal/api/tickets'),
+      fetch('/portal/api/me', { cache: 'no-store' }),
+      fetch('/portal/api/tickets', { cache: 'no-store' }),
     ]);
     if (meRes.status === 401) { window.location = '/auth/login'; return; }
 
@@ -47,31 +47,40 @@ async function loadData() {
     const pct = user.planTokensPerMonth > 0
       ? Math.round((user.tokenBalance / user.planTokensPerMonth) * 100)
       : 0;
-    document.getElementById('token-bar').style.width = Math.min(pct, 100) + '%';
-    document.getElementById('token-bar').className = `h-2 rounded-full transition-all ${pct < 20 ? 'bg-red-400' : pct < 50 ? 'bg-amber-400' : 'bg-teal'}`;
+    const bar = document.getElementById('token-bar');
+    bar.style.width = Math.min(pct, 100) + '%';
+    bar.className = 'progress-bar' + (pct < 20 ? ' is-empty' : pct < 50 ? ' is-low' : '');
     document.getElementById('token-bar-label').textContent = `${user.tokenBalance} / ${user.planTokensPerMonth}`;
 
+    // ── Your website (Bug 4) — drive everything from user.websiteUrl ──
+    const urlEl = document.getElementById('website-url');
+    const statusEl = document.getElementById('website-status');
+    const visitEl = document.getElementById('visit-website');
     if (user.websiteUrl) {
-      document.getElementById('website-url').textContent = user.websiteUrl;
-      document.getElementById('visit-website').href = user.websiteUrl.startsWith('http') ? user.websiteUrl : 'https://' + user.websiteUrl;
+      urlEl.textContent = user.websiteUrl;
+      visitEl.href = user.websiteUrl.startsWith('http') ? user.websiteUrl : 'https://' + user.websiteUrl;
+      if (statusEl) statusEl.classList.remove('hidden'); // show "Live" only when a URL exists
+      visitEl.classList.remove('hidden');
     } else {
-      document.getElementById('website-url').textContent = 'Not set yet';
+      urlEl.textContent = 'Not set yet';
+      if (statusEl) statusEl.classList.add('hidden'); // no contradictory "Live" dot
+      visitEl.classList.add('hidden');
     }
 
     const container = document.getElementById('recent-tickets');
     if (tickets.length === 0) {
-      container.innerHTML = `<div class="px-5 py-8 text-center">
-        <p class="text-xs text-gray-400 mb-3">No requests yet</p>
-        <a href="/portal/request" class="text-xs teal font-medium hover:underline">Submit your first request →</a>
+      container.innerHTML = `<div class="empty-state">
+        <p>No requests yet</p>
+        <a href="/portal/request" class="link-accent">Submit your first request →</a>
       </div>`;
     } else {
       container.innerHTML = tickets.slice(0, 4).map(t => `
-        <div class="flex items-center justify-between px-5 py-3 border-b border-gray-50 last:border-0">
+        <div class="ticket-item">
           <div>
-            <div class="text-sm font-medium text-gray-800">#${t.ticketNumber} · ${t.title}</div>
-            <div class="text-xs text-gray-400 mt-0.5 capitalize">${t.complexity} · ${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</div>
+            <div class="ticket-item-title">#${t.ticketNumber} · ${t.title}</div>
+            <div class="ticket-item-meta">${t.complexity} · ${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</div>
           </div>
-          <span class="text-xs font-medium px-2 py-1 rounded-full ${statusColors[t.status] || 'bg-gray-100 text-gray-500'}">${statusLabels[t.status] || t.status}</span>
+          <span class="badge ${statusColors[t.status] || 'badge-gray'}">${statusLabels[t.status] || t.status}</span>
         </div>
       `).join('');
     }

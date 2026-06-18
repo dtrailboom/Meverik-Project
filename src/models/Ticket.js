@@ -30,6 +30,10 @@ const ticketSchema = new mongoose.Schema(
     assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     deliveredAt: { type: Date },
     notes: { type: String }, // internal admin notes
+
+    // Bug 2C — admin reply visible to the client in the portal
+    adminReply: { type: String, trim: true },
+    adminReplyAt: { type: Date },
   },
   { timestamps: true }
 );

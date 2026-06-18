@@ -1,24 +1,26 @@
 const statusColors = {
-  new: 'bg-blue-50 text-blue-600',
-  in_progress: 'bg-amber-50 text-amber-600',
-  in_review: 'bg-purple-50 text-purple-600',
-  delivered: 'bg-green-50 text-green-600',
-  blocked: 'bg-red-50 text-red-600',
+  new: 'badge-blue',
+  in_progress: 'badge-amber',
+  in_review: 'badge-purple',
+  delivered: 'badge-green',
+  blocked: 'badge-red',
 };
 const statusLabels = {
   new: 'New', in_progress: 'In progress', in_review: 'In review',
   delivered: 'Delivered', blocked: 'Blocked',
 };
-const complexityColors = { small: 'text-green-600', medium: 'text-amber-500', large: 'text-red-500' };
+const complexityClasses = { small: 'is-small', medium: 'is-medium', large: 'is-large' };
 let currentTicketId = null;
+let allTickets = [];
 
 async function loadTickets() {
   const status = document.getElementById('status-filter').value;
   const url = '/admin/api/tickets' + (status ? '?status=' + status : '');
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { cache: 'no-store' });
     if (res.status === 401 || res.status === 403) { window.location = '/auth/login'; return; }
     const { tickets } = await res.json();
+    allTickets = tickets;
     renderMetrics(tickets);
     renderTickets(tickets);
   } catch (e) {
@@ -37,34 +39,64 @@ function renderMetrics(tickets) {
 function renderTickets(tickets) {
   const el = document.getElementById('tickets-list');
   if (!tickets.length) {
-    el.innerHTML = '<div class="px-5 py-10 text-center text-sm text-gray-400">No tickets found</div>';
+    el.innerHTML = '<div class="empty-state">No tickets found</div>';
     return;
   }
   el.innerHTML = tickets.map(t => `
-    <div class="grid grid-cols-12 gap-3 px-5 py-3.5 border-b border-gray-50 last:border-0 items-center text-sm hover:bg-gray-50 transition-all">
-      <div class="col-span-3">
-        <div class="font-medium text-gray-800">${t.client?.businessName || t.client?.name || '—'}</div>
-        <div class="text-xs text-gray-400">${t.client?.email || ''}</div>
+    <div class="dgrid dgrid-row">
+      <div class="col-client">
+        <div class="client-name">${t.client?.businessName || t.client?.name || '—'}</div>
+        <div class="client-email">${t.client?.email || ''}</div>
       </div>
-      <div class="col-span-3">
-        <div class="font-medium text-gray-700">#${t.ticketNumber} · ${t.title}</div>
+      <div class="col-request">
+        <div class="cell-strong">#${t.ticketNumber} · ${t.title}</div>
+        <div class="cell-muted cell-desc" style="margin-top:4px;white-space:pre-wrap"></div>
       </div>
-      <div class="col-span-1"><span class="text-xs font-medium capitalize ${complexityColors[t.complexity] || ''}">${t.complexity}</span></div>
-      <div class="col-span-2"><span class="text-xs font-medium px-2 py-1 rounded-full ${statusColors[t.status] || 'bg-gray-100 text-gray-500'}">${statusLabels[t.status] || t.status}</span></div>
-      <div class="col-span-1"><span class="text-xs text-gray-400">${t.tokenCost}</span></div>
-      <div class="col-span-1"><span class="text-xs text-gray-400">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span></div>
-      <div class="col-span-1"><button data-id="${t._id}" data-status="${t.status}" class="edit-btn text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 hover:bg-gray-100 transition-all">Edit</button></div>
+      <div class="col-type"><span class="complexity ${complexityClasses[t.complexity] || ''}">${t.complexity}</span></div>
+      <div class="col-status"><span class="badge ${statusColors[t.status] || 'badge-gray'}">${statusLabels[t.status] || t.status}</span></div>
+      <div class="col-tokens"><span class="cell-muted">${t.tokenCost}</span></div>
+      <div class="col-date"><span class="cell-muted">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span></div>
+      <div class="col-action"><button data-id="${t._id}" data-status="${t.status}" class="edit-btn btn btn-outline btn-xs">Edit</button></div>
     </div>`).join('');
 
+  // Fill the request details via textContent (XSS-safe). Order matches the rendered array.
+  const rows = el.querySelectorAll('.dgrid-row');
+  rows.forEach((row, i) => {
+    const d = row.querySelector('.cell-desc');
+    if (d) d.textContent = tickets[i].description || 'No details provided.';
+  });
+
   document.querySelectorAll('.edit-btn').forEach(btn => {
-    btn.addEventListener('click', () => openModal(btn.dataset.id, btn.dataset.status));
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openModal(btn.dataset.id, btn.dataset.status);
+    });
+  });
+
+  document.querySelectorAll('#tickets-list .dgrid-row').forEach(row => {
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.col-action')) return;
+      row.classList.toggle('is-open');
+    });
   });
 }
 
 function openModal(id, status) {
   currentTicketId = id;
-  document.getElementById('modal-status').value = status;
-  document.getElementById('modal-notes').value = '';
+  const t = allTickets.find(x => x._id === id);
+
+  // Defensive: only touch elements that actually exist in the HTML,
+  // so the modal still opens even if tickets.html wasn't updated yet.
+  const statusEl  = document.getElementById('modal-status');
+  const notesEl   = document.getElementById('modal-notes');
+  const replyEl   = document.getElementById('modal-reply');
+  const detailsEl = document.getElementById('modal-details');
+
+  if (statusEl)  statusEl.value = status;
+  if (notesEl)   notesEl.value = (t && t.notes) || '';
+  if (replyEl)   replyEl.value = (t && t.adminReply) || '';
+  if (detailsEl) detailsEl.textContent = (t && t.description) || 'No details provided.';
+
   document.getElementById('modal').classList.remove('hidden');
 }
 
@@ -78,14 +110,19 @@ async function saveStatus() {
   const btn = document.getElementById('modal-save');
   btn.disabled = true;
   btn.textContent = 'Saving...';
+
+  const replyEl = document.getElementById('modal-reply');
+  const body = {
+    status: document.getElementById('modal-status').value,
+    notes: document.getElementById('modal-notes').value,
+  };
+  if (replyEl) body.adminReply = replyEl.value; // only send if the field exists
+
   try {
     const res = await fetch('/admin/api/tickets/' + currentTicketId, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        status: document.getElementById('modal-status').value,
-        notes: document.getElementById('modal-notes').value,
-      }),
+      body: JSON.stringify(body),
     });
     if (res.ok) { closeModal(); loadTickets(); }
     else { alert('Failed to update ticket.'); }

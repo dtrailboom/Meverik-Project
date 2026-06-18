@@ -2,8 +2,8 @@ const nodemailer = require('nodemailer');
 
 // Create transporter
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT) || 587,
+  host:   process.env.SMTP_HOST,
+  port:   parseInt(process.env.SMTP_PORT) || 587,
   secure: process.env.SMTP_PORT === '465',
   auth: {
     user: process.env.SMTP_USER,
@@ -73,8 +73,8 @@ const sendEmail = async ({ to, subject, html }) => {
   }
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL_FROM || 'Meverik <hello@meverik.com>',
-      replyTo: process.env.REPLY_TO_EMAIL || process.env.ADMIN_EMAIL,  // ← add this
+      from:    process.env.EMAIL_FROM || 'Meverik <hello@meverik.com>',
+      replyTo: process.env.REPLY_TO_EMAIL || process.env.ADMIN_EMAIL,
       to,
       subject,
       html,
@@ -334,10 +334,34 @@ const sendAdminNewTicketEmail = async ({ ticketNumber, clientName, clientEmail, 
   `);
 
   await sendEmail({
-    to: process.env.ADMIN_EMAIL,
+    to:      process.env.ADMIN_EMAIL,
     subject: `New ticket #${ticketNumber} from ${clientName}`,
     html,
   });
+};
+
+/**
+ * 8. Password reset email
+ */
+const sendPasswordResetEmail = async ({ to, name, resetUrl }) => {
+  const html = baseTemplate(`
+    <h1 style="margin:0 0 8px;font-size:22px;font-weight:600;color:#111827;">Reset your password</h1>
+    <p style="margin:0 0 24px;font-size:15px;color:#6B7280;line-height:1.6;">
+      Hi ${name}, we received a request to reset the password for your Meverik account.
+      Click the button below to set a new password. This link expires in <strong style="color:#111827;">1 hour</strong>.
+    </p>
+
+    <a href="${resetUrl}" style="display:inline-block;background:#1D9E75;color:#ffffff;font-size:14px;font-weight:500;padding:12px 24px;border-radius:8px;text-decoration:none;">
+      Reset password →
+    </a>
+
+    <p style="margin:24px 0 0;font-size:13px;color:#9CA3AF;">
+      If you didn't request a password reset, you can safely ignore this email —
+      your password will not change.
+    </p>
+  `);
+
+  await sendEmail({ to, subject: 'Reset your Meverik password', html });
 };
 
 module.exports = {
@@ -348,4 +372,5 @@ module.exports = {
   sendLowTokenWarningEmail,
   sendTopupConfirmationEmail,
   sendAdminNewTicketEmail,
+  sendPasswordResetEmail,
 };

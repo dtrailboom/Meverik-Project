@@ -1,9 +1,9 @@
-const statusColors = { new: 'bg-blue-50 text-blue-600', in_progress: 'bg-amber-50 text-amber-600', in_review: 'bg-purple-50 text-purple-600', delivered: 'bg-green-50 text-green-600', blocked: 'bg-red-50 text-red-600' };
+const statusColors = { new: 'badge-blue', in_progress: 'badge-amber', in_review: 'badge-purple', delivered: 'badge-green', blocked: 'badge-red' };
 const statusLabels = { new: 'New', in_progress: 'In progress', in_review: 'In review', delivered: 'Delivered', blocked: 'Blocked' };
 let allTickets = [];
 
 async function load() {
-  const [meRes, tRes] = await Promise.all([fetch('/portal/api/me'), fetch('/portal/api/tickets')]);
+  const [meRes, tRes] = await Promise.all([fetch('/portal/api/me', { cache: 'no-store' }), fetch('/portal/api/tickets', { cache: 'no-store' })]);
   if (meRes.status === 401) { window.location = '/auth/login'; return; }
   const { user } = await meRes.json();
   const { tickets } = await tRes.json();
@@ -23,19 +23,27 @@ function filterTickets() {
 function renderTickets(tickets) {
   const el = document.getElementById('tickets-list');
   if (!tickets.length) {
-    el.innerHTML = '<div class="px-5 py-10 text-center"><p class="text-sm text-gray-400 mb-3">No tickets yet</p><a href="/portal/request" class="text-sm teal font-medium hover:underline">Submit your first request →</a></div>';
+    el.innerHTML = '<div class="empty-state"><p>No tickets yet</p><a href="/portal/request" class="link-accent">Submit your first request →</a></div>';
     return;
   }
   el.innerHTML = tickets.map(t => `
-    <div class="grid grid-cols-12 gap-4 px-5 py-3.5 border-b border-gray-50 last:border-0 items-center text-sm hover:bg-gray-50 transition-all">
-      <div class="col-span-5"><div class="font-medium text-gray-800">#${t.ticketNumber} · ${t.title}</div></div>
-      <div class="col-span-2"><span class="capitalize text-xs text-gray-500">${t.complexity}</span></div>
-      <div class="col-span-2"><span class="text-xs font-medium px-2 py-1 rounded-full ${statusColors[t.status] || 'bg-gray-100 text-gray-500'}">${statusLabels[t.status] || t.status}</span></div>
-      <div class="col-span-2"><span class="text-xs text-gray-400">${t.tokenCost} token${t.tokenCost > 1 ? 's' : ''}</span></div>
-      <div class="col-span-1">${t.status === 'new'
-        ? `<button data-id="${t._id}" class="cancel-btn text-xs text-red-500 hover:underline">Cancel</button>`
-        : `<span class="text-xs text-gray-400">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>`}</div>
+    <div class="dgrid dgrid-row">
+      <div class="col-request"><div class="cell-title">#${t.ticketNumber} · ${t.title}</div></div>
+      <div class="col-type"><span class="cell-type">${t.complexity}</span></div>
+      <div class="col-status"><span class="badge ${statusColors[t.status] || 'badge-gray'}">${statusLabels[t.status] || t.status}</span></div>
+      <div class="col-tokens"><span class="cell-muted">${t.tokenCost} token${t.tokenCost > 1 ? 's' : ''}</span></div>
+      <div class="col-date">
+        <span class="cell-muted">${new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>${t.status === 'new' ? `<button data-id="${t._id}" class="cancel-btn link-danger">Cancel</button>` : ''}
+      </div>
+      ${t.adminReply ? `<div class="ticket-reply"><div class="detail-label">Reply from the team</div><div class="detail-text"></div></div>` : ''}
     </div>`).join('');
+
+  // Fill reply text via textContent (XSS-safe). Order matches the rendered array.
+  const rows = el.querySelectorAll('.dgrid-row');
+  rows.forEach((row, i) => {
+    const r = row.querySelector('.ticket-reply .detail-text');
+    if (r) r.textContent = tickets[i].adminReply || '';
+  });
 
   document.querySelectorAll('.cancel-btn').forEach(btn => {
     btn.addEventListener('click', () => cancelTicket(btn.dataset.id));

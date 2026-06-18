@@ -7,151 +7,169 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; } svg { width: 1rem; height: 1rem; }
-    .plan-card { cursor: pointer; transition: all 0.15s; }
-    .plan-card.selected { border-color: #1D9E75 !important; background-color: #E1F5EE; }
-    .plan-card.selected .plan-radio { background-color: #1D9E75; border-color: #1D9E75; }
-    .plan-card.selected .plan-radio::after { display: block; }
-    .plan-radio { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid #D1D5DB; position: relative; flex-shrink: 0; }
-    .plan-radio::after { content: ''; display: none; width: 8px; height: 8px; border-radius: 50%; background: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    /* C1 — Domain availability check (self-contained, kann später nach main.css) */
+    .domain-check { margin-top: 14px; }
+    .domain-check-title {
+      font-size: 13px; font-weight: 500; color: #555;
+      margin: 0 0 8px;
+    }
+    .domain-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+    .domain-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: 8px;
+      border: 1px solid #e5e7eb; background: #fafafa;
+      font-size: 14px;
+    }
+    .domain-icon { width: 18px; text-align: center; font-weight: 600; }
+    .domain-name { flex: 1; font-family: inherit; }
+    .domain-status { font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+    .domain-item.is-free    { border-color: #bbf7d0; background: #f0fdf4; }
+    .domain-item.is-free    .domain-icon, .domain-item.is-free    .domain-status { color: #16a34a; }
+    .domain-item.is-taken   { opacity: .7; }
+    .domain-item.is-taken   .domain-icon, .domain-item.is-taken   .domain-status { color: #dc2626; }
+    .domain-item.is-unknown .domain-icon, .domain-item.is-unknown .domain-status { color: #9ca3af; }
+    .domain-loading, .domain-error {
+      list-style: none; font-size: 13px; color: #888; padding: 8px 12px;
+    }
   </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
-<nav class="bg-white border-b border-gray-100 px-6 py-4">
-  <div class="max-w-5xl mx-auto flex items-center justify-between">
-    <a href="/" class="text-lg font-semibold">Meverik<span class="teal">.</span></a>
-    <a href="/auth/login" class="text-sm text-gray-500 hover:text-gray-900">Already have an account? <span class="teal font-medium">Log in</span></a>
+<body class="auth-page">
+<nav class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand">Meverik<span class="brand-dot">.</span></a>
+    <a href="/auth/login" class="topbar-link">Already have an account? <span class="link-accent">Log in</span></a>
   </div>
 </nav>
 
-<div class="flex-1 flex items-center justify-center px-6 py-14">
-  <div class="w-full max-w-lg">
-    <div class="text-center mb-8">
-      <h1 class="text-2xl font-semibold mb-2">Get your website</h1>
-      <p class="text-sm text-gray-400">Set up your account and choose a plan. You'll be redirected to payment.</p>
+<main class="auth-main">
+  <div class="auth-card-wrap wide">
+    <div class="auth-header">
+      <h1>Get your website</h1>
+      <p>Set up your account and choose a plan. You'll be redirected to payment.</p>
     </div>
 
-    <div id="error-banner" class="hidden mb-5 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3" role="alert"></div>
+    <div id="error-banner" class="alert alert-error auth-banner hidden" role="alert"></div>
 
-    <div class="bg-white border border-gray-200 rounded-2xl p-7 space-y-5">
-      <div class="flex items-center gap-2 mb-2">
-        <div class="flex items-center gap-2 text-xs font-medium teal">
-          <span class="w-5 h-5 rounded-full bg-teal text-white flex items-center justify-center text-xs" id="step-num">1</span>
+    <div class="card card-2xl signup-card">
+      <div class="stepper">
+        <div class="stepper-label">
+          <span class="step-badge" id="step-num">1</span>
           <span id="step-text">Your details</span>
         </div>
-        <div class="flex-1 h-px bg-gray-200"></div>
-        <span class="text-xs text-gray-400" id="step-count">Step 1 of 2</span>
+        <div class="step-line"></div>
+        <span class="step-count" id="step-count">Step 1 of 2</span>
       </div>
 
       <div id="step-1">
-        <div class="space-y-4">
-          <div class="grid grid-cols-2 gap-4">
+        <div class="signup-fields">
+          <div class="field-grid-2">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5" for="name">Full name</label>
-              <input id="name" type="text" autocomplete="name" placeholder="Anna Müller" class="w-full text-sm border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-transparent transition-all">
+              <label class="field-label" for="name">Full name</label>
+              <input id="name" type="text" autocomplete="name" placeholder="Anna Müller" class="input">
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5" for="business">Business name</label>
-              <input id="business" type="text" placeholder="Anna's Café" class="w-full text-sm border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-transparent transition-all">
+              <label class="field-label" for="business">Business name</label>
+              <input id="business" type="text" placeholder="Anna's Café" class="input">
             </div>
           </div>
+
+          <!-- C1: Domain availability check -->
+          <div id="domain-check" class="domain-check hidden">
+            <p class="domain-check-title">Available domains for your business</p>
+            <ul id="domain-list" class="domain-list"></ul>
+          </div>
+
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5" for="email">Email address</label>
-            <input id="email" type="email" autocomplete="email" placeholder="anna@cafe.at" class="w-full text-sm border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-transparent transition-all">
+            <label class="field-label" for="email">Email address</label>
+            <input id="email" type="email" autocomplete="email" placeholder="anna@cafe.at" class="input">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5" for="password">Password</label>
-            <div class="relative">
-              <input id="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" class="w-full text-sm border border-gray-200 rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-transparent transition-all">
-              <button type="button" id="toggle-password" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" aria-label="Show password">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            <label class="field-label" for="password">Password</label>
+            <div class="input-wrap">
+              <input id="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" class="input input-with-icon">
+              <button type="button" id="toggle-password" class="input-icon-btn" aria-label="Show password">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
               </button>
             </div>
-            <div class="mt-2 flex gap-1" id="strength-bars">
-              <div class="h-1 flex-1 rounded bg-gray-200" id="bar-1"></div>
-              <div class="h-1 flex-1 rounded bg-gray-200" id="bar-2"></div>
-              <div class="h-1 flex-1 rounded bg-gray-200" id="bar-3"></div>
-              <div class="h-1 flex-1 rounded bg-gray-200" id="bar-4"></div>
+            <div class="strength-bars" id="strength-bars">
+              <div class="strength-bar" id="bar-1"></div>
+              <div class="strength-bar" id="bar-2"></div>
+              <div class="strength-bar" id="bar-3"></div>
+              <div class="strength-bar" id="bar-4"></div>
             </div>
-            <p class="text-xs text-gray-400 mt-1" id="strength-label"></p>
+            <p class="strength-label" id="strength-label"></p>
           </div>
         </div>
-        <button id="next-btn" type="button" class="w-full mt-6 bg-teal text-white font-medium text-sm py-3 rounded-lg hover-teal transition-all">
+        <button id="next-btn" type="button" class="btn btn-primary btn-block btn-next">
           Continue to plan selection →
         </button>
       </div>
 
       <div id="step-2" class="hidden">
-        <p class="text-sm font-medium text-gray-700 mb-3">Choose your plan</p>
-        <div class="space-y-3 mb-5">
-          <div class="plan-card border border-gray-200 rounded-xl p-4 flex items-start gap-3" data-plan="starter">
-            <div class="plan-radio mt-0.5"></div>
-            <div class="flex-1">
-              <div class="flex items-center justify-between">
-                <span class="text-sm font-medium">Starter</span>
-                <span class="text-sm font-semibold">€29<span class="text-xs text-gray-400 font-normal">/mo</span></span>
+        <p class="signup-step-title">Choose your plan</p>
+        <div class="plan-list">
+          <div class="plan-card" data-plan="starter">
+            <div class="plan-radio"></div>
+            <div class="plan-body">
+              <div class="plan-head">
+                <span class="plan-name">Starter</span>
+                <span class="plan-price">€29<span class="plan-price-unit">/mo</span></span>
               </div>
-              <p class="text-xs text-gray-400 mt-0.5">10 tokens/mo · text fixes, image swaps</p>
+              <p class="plan-desc">A simple, single-page website to get your business online</p>
             </div>
           </div>
 
-          <div class="plan-card selected border border-gray-200 rounded-xl p-4 flex items-start gap-3" data-plan="growth">
-            <div class="plan-radio mt-0.5"></div>
-            <div class="flex-1">
-              <div class="flex items-center justify-between">
-                <span class="text-sm font-medium">Growth</span>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs font-medium teal bg-green-50 border border-green-200 rounded-full px-2 py-0.5">Popular</span>
-                  <span class="text-sm font-semibold">€59<span class="text-xs text-gray-400 font-normal">/mo</span></span>
+          <div class="plan-card selected" data-plan="growth">
+            <div class="plan-radio"></div>
+            <div class="plan-body">
+              <div class="plan-head">
+                <span class="plan-name">Growth</span>
+                <div class="plan-price-row">
+                  <span class="plan-popular">Popular</span>
+                  <span class="plan-price">€59<span class="plan-price-unit">/mo</span></span>
                 </div>
               </div>
-              <p class="text-xs text-gray-400 mt-0.5">25 tokens/mo · small + medium changes</p>
+              <p class="plan-desc">A multi-page website with more content and features</p>
             </div>
           </div>
 
-          <div class="plan-card border border-gray-200 rounded-xl p-4 flex items-start gap-3" data-plan="pro">
-            <div class="plan-radio mt-0.5"></div>
-            <div class="flex-1">
-              <div class="flex items-center justify-between">
-                <span class="text-sm font-medium">Pro</span>
-                <span class="text-sm font-semibold">€99<span class="text-xs text-gray-400 font-normal">/mo</span></span>
+          <div class="plan-card" data-plan="pro">
+            <div class="plan-radio"></div>
+            <div class="plan-body">
+              <div class="plan-head">
+                <span class="plan-name">Pro</span>
+                <span class="plan-price">€99<span class="plan-price-unit">/mo</span></span>
               </div>
-              <p class="text-xs text-gray-400 mt-0.5">60 tokens/mo · unlimited large changes</p>
+              <p class="plan-desc">A full-featured website with custom integrations</p>
             </div>
           </div>
         </div>
 
-        <div class="bg-gray-50 border border-gray-100 rounded-xl p-4 mb-5 text-xs text-gray-500 space-y-1">
-          <p class="font-medium text-gray-700 mb-2">How tokens work</p>
-          <div class="flex justify-between"><span>Small change (text, image)</span><span class="font-medium teal">1 token</span></div>
-          <div class="flex justify-between"><span>Medium change (new section, form)</span><span class="font-medium teal">3 tokens</span></div>
-          <div class="flex justify-between"><span>Large change (new page, integration)</span><span class="font-medium teal">8 tokens</span></div>
+        <div class="token-info">
+          <p class="token-info-title">After your site is live</p>
+          <p class="token-info-note">Each plan includes monthly tokens you can use later for changes — small fixes, new sections, or bigger rebuilds. You'll choose exactly what you need from your portal once your site is built.</p>
         </div>
 
-        <div class="flex gap-3">
-          <button id="back-btn" type="button" class="flex-1 border border-gray-200 text-gray-500 text-sm font-medium py-3 rounded-lg hover:bg-gray-50 transition-all">
-            ← Back
-          </button>
-          <button id="submit-btn" type="button" class="flex-1 bg-teal text-white font-medium text-sm py-3 rounded-lg hover-teal transition-all flex items-center justify-center gap-2">
-            Pay with Stripe →
-          </button>
+        <div class="btn-row">
+          <button id="back-btn" type="button" class="btn btn-outline">← Back</button>
+          <button id="submit-btn" type="button" class="btn btn-primary">Pay with Stripe →</button>
         </div>
 
-        <p class="text-xs text-center text-gray-400 mt-3">
+        <p class="signup-note">
           You'll be redirected to Stripe to complete payment. Cancel anytime.
         </p>
       </div>
     </div>
 
-    <p class="text-center text-xs text-gray-400 mt-6">
+    <p class="auth-footnote">
       Already have an account?
-      <a href="/auth/login" class="teal font-medium hover:underline">Log in</a>
+      <a href="/auth/login" class="link-accent">Log in</a>
     </p>
   </div>
-</div>
+</main>
 
-<footer class="text-center py-6 text-xs text-gray-300 border-t border-gray-100">
-  © 2026 Meverik · <a href="/privacy" class="hover:text-gray-400">Privacy</a> · <a href="/terms" class="hover:text-gray-400">Terms</a>
+<footer class="site-footer">
+  © 2026 Meverik · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
 </footer>
 <script src="/js/register.js"></script>
 </body>

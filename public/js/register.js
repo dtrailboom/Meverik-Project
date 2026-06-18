@@ -29,7 +29,7 @@ function setLoading(loading) {
   const btn = document.getElementById('submit-btn');
   btn.disabled = loading;
   btn.innerHTML = loading
-    ? '<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Redirecting to Stripe…'
+    ? '<svg class="spinner" fill="none" viewBox="0 0 24 24"><circle class="spinner-track" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="spinner-head" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Redirecting to Stripe…'
     : 'Pay with Stripe →';
 }
 
@@ -53,14 +53,74 @@ document.getElementById('password').addEventListener('input', function () {
   if (/[0-9]/.test(val)) score++;
   if (/[^A-Za-z0-9]/.test(val)) score++;
 
-  const colors = ['', 'bg-red-400', 'bg-orange-400', 'bg-yellow-400', 'bg-green-500'];
+  const states = ['', 'is-weak', 'is-fair', 'is-good', 'is-strong'];
   const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
   for (let i = 1; i <= 4; i++) {
     const bar = document.getElementById(`bar-${i}`);
-    bar.className = `h-1 flex-1 rounded ${i <= score ? colors[score] : 'bg-gray-200'}`;
+    bar.className = 'strength-bar' + (i <= score ? ' ' + states[score] : '');
   }
   document.getElementById('strength-label').textContent = val.length > 0 ? labels[score] : '';
 });
+
+// ---------------------------------------------------------------------------
+// C1 — Domain availability check (AJAX / fetch, debounced)
+// Consumes BE endpoint GET /api/domain/check?name=... → JSON (M4/M5/M7)
+// ---------------------------------------------------------------------------
+const businessInput = document.getElementById('business');
+const domainCheck = document.getElementById('domain-check');
+const domainList = document.getElementById('domain-list');
+let domainTimer = null;
+
+// Client-seitig säubern (Server säubert nochmal — defense in depth)
+function sanitizeName(raw) {
+  return raw
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+businessInput.addEventListener('input', () => {
+  clearTimeout(domainTimer);
+  const name = sanitizeName(businessInput.value);
+  if (name.length < 2) {
+    domainCheck.classList.add('hidden');
+    return;
+  }
+  // 500ms nach dem letzten Tastendruck → schont das API-Kontingent
+  domainTimer = setTimeout(() => checkDomains(name), 500);
+});
+
+async function checkDomains(name) {
+  domainCheck.classList.remove('hidden');
+  domainList.innerHTML = '<li class="domain-loading">Checking availability…</li>';
+  try {
+    const res = await fetch(`/api/domain/check?name=${encodeURIComponent(name)}`, { cache: 'no-store' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'failed');
+    renderDomains(data.results || []);
+  } catch (err) {
+    domainList.innerHTML = '<li class="domain-error">Could not check domains right now.</li>';
+  }
+}
+
+function renderDomains(results) {
+  if (!Array.isArray(results) || results.length === 0) {
+    domainList.innerHTML = '<li class="domain-error">No results.</li>';
+    return;
+  }
+  domainList.innerHTML = results.map(r => {
+    let cls, icon, label;
+    if (r.available === true)       { cls = 'is-free';    icon = '✓'; label = 'available'; }
+    else if (r.available === false) { cls = 'is-taken';   icon = '✗'; label = 'taken'; }
+    else                            { cls = 'is-unknown'; icon = '?'; label = 'unknown'; }
+    return `<li class="domain-item ${cls}">
+      <span class="domain-icon">${icon}</span>
+      <span class="domain-name">${r.domain}</span>
+      <span class="domain-status">${label}</span>
+    </li>`;
+  }).join('');
+}
 
 // Step navigation
 document.getElementById('next-btn').addEventListener('click', () => {

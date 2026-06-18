@@ -1,195 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Request — Meverik Portal</title>
   <link rel="stylesheet" href="/css/main.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; } svg { width: 1rem; height: 1rem; }
-    .complexity-card.selected { border-color: #1D9E75; background-color: #E1F5EE; }
-    button { cursor: pointer; }
-    .btn-signout:hover { background:#F9FAFB; color:#374151; border-color:#D1D5DB; }
-  
-    /* Mobile sidebar (hamburger) */
-    #app-sidebar { transition: transform 0.25s ease; }
-    @media (max-width: 767px) {
-      #app-sidebar { position: fixed; top: 0; left: 0; height: 100vh; z-index: 50; transform: translateX(-100%); }
-      #app-sidebar.sidebar-open { transform: translateX(0); }
-      #sidebar-overlay { display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.3); z-index: 40; }
-      #sidebar-overlay.show { display: block; }
-    }
-    @media (min-width: 768px) { #hamburger-btn { display: none; } }
-  </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <div id="sidebar-overlay"></div>
-  <div class="flex min-h-screen">
-    <aside id="app-sidebar" class="w-52 min-w-52 bg-white border-r border-gray-100 flex flex-col sticky top-0 h-screen">
-      <div class="px-5 py-5 border-b border-gray-100"><div class="text-base font-semibold">Meverik<span class="teal">.</span></div><div class="text-xs text-gray-400 mt-0.5" id="sidebar-business">Loading...</div></div>
-      <nav class="flex-1 py-3 flex flex-col gap-0.5">
-        <a href="/portal" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Overview</a>
-        <a href="/portal/request" class="flex items-center gap-2.5 px-5 py-2.5 text-sm font-medium teal bg-teal-soft border-l-2 border-teal"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>New request</a>
-        <a href="/portal/tickets" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>My tickets</a>
-        <a href="/portal/topup" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Top up tokens</a>
-        <a href="/portal/billing" class="flex items-center gap-2.5 px-5 py-2.5 text-sm text-gray-500 hover:bg-gray-50 border-l-2 border-transparent transition-all"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>Billing</a>
-      </nav>
-      <div class="px-5 py-4 border-t border-gray-100"><div class="text-sm font-medium text-gray-700" id="sidebar-name">...</div><div class="text-xs text-gray-400 capitalize" id="sidebar-plan">...</div><button id="logout-btn" class="btn-signout mt-3 w-full text-xs text-gray-400 border border-gray-200 rounded-lg py-2 transition-all">Sign out</button></div>
-    </aside>
-
-    <div class="flex-1 flex flex-col min-w-0">
-      <header class="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-3"><button id="hamburger-btn" aria-label="Open menu" class="text-gray-500 hover:text-gray-900 transition-all" style="cursor:pointer;"><svg style="width:1.5rem;height:1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button><h1 class="text-base font-semibold">New request</h1></div>
-        <div class="flex items-center gap-1.5 bg-teal-soft border border-green-200 rounded-lg px-3 py-1.5 text-xs font-medium teal">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          <span id="token-count">...</span>
-        </div>
-      </header>
-
-      <main class="flex-1 p-6 max-w-2xl">
-        <div id="blocked-banner" class="hidden mb-5 bg-red-50 border border-red-200 rounded-xl px-5 py-4 flex items-start gap-3">
-          <svg class="w-5 h-5 text-red-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-          <div>
-            <div class="text-sm font-medium text-red-700">Not enough tokens</div>
-            <div class="text-xs text-red-600 mt-0.5" id="blocked-msg">You need more tokens to submit this request.</div>
-            <a href="/portal/topup" class="text-xs font-medium text-red-700 underline mt-1 inline-block">Top up tokens →</a>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2 mb-6">
-          <div class="flex items-center gap-1.5 text-xs font-medium">
-            <span class="w-6 h-6 rounded-full bg-teal text-white flex items-center justify-center text-xs font-semibold">1</span>
-            <span class="teal">Choose type</span>
-          </div>
-          <div class="flex-1 h-px bg-gray-200"></div>
-          <div class="flex items-center gap-1.5 text-xs font-medium">
-            <span class="w-6 h-6 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center text-xs font-semibold" id="step-2-num">2</span>
-            <span class="text-gray-400" id="step-2-text">Describe</span>
-          </div>
-          <div class="flex-1 h-px bg-gray-200"></div>
-          <div class="flex items-center gap-1.5 text-xs font-medium">
-            <span class="w-6 h-6 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center text-xs font-semibold" id="step-3-num">3</span>
-            <span class="text-gray-400" id="step-3-text">Confirm</span>
-          </div>
-        </div>
-
-        <div id="step-1">
-          <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div class="px-5 py-4 border-b border-gray-100">
-              <p class="text-sm font-medium">What kind of change do you need?</p>
-            </div>
-            <div class="p-5 space-y-3">
-              <div class="complexity-card selected border-2 border-teal rounded-xl p-4 cursor-pointer" data-complexity="small" id="cc-small">
-                <div class="flex items-center justify-between mb-1">
-                  <span class="text-sm font-medium">Small</span>
-                  <span class="text-xs font-semibold teal">1 token</span>
-                </div>
-                <p class="text-xs text-gray-400">Text edits, image swaps, minor fixes, opening hours</p>
-              </div>
-              <div class="complexity-card border border-gray-200 rounded-xl p-4 cursor-pointer hover:border-gray-300 transition-all" data-complexity="medium" id="cc-medium">
-                <div class="flex items-center justify-between mb-1">
-                  <span class="text-sm font-medium">Medium</span>
-                  <span class="text-xs font-semibold text-amber-500">3 tokens</span>
-                </div>
-                <p class="text-xs text-gray-400">New section, contact form, gallery, color changes</p>
-              </div>
-              <div class="complexity-card border border-gray-200 rounded-xl p-4 cursor-pointer hover:border-gray-300 transition-all" data-complexity="large" id="cc-large">
-                <div class="flex items-center justify-between mb-1">
-                  <span class="text-sm font-medium">Large</span>
-                  <span class="text-xs font-semibold text-red-500">8 tokens</span>
-                </div>
-                <p class="text-xs text-gray-400">New page, booking system, third-party integration</p>
-              </div>
-            </div>
-            <div class="px-5 pb-5">
-              <div class="bg-gray-50 rounded-lg px-4 py-3 text-xs text-gray-500 mb-4">
-                You have <strong id="balance-display" class="teal">... tokens</strong>. This request costs <strong id="cost-display" class="teal">1 token</strong>. You'll have <strong id="after-display">...</strong> left.
-              </div>
-              <button id="to-step-2" class="w-full bg-teal text-white text-sm font-medium py-3 rounded-lg hover-teal transition-all">Continue →</button>
-            </div>
-          </div>
-        </div>
-
-        <div id="step-2" class="hidden">
-          <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div class="px-5 py-4 border-b border-gray-100">
-              <p class="text-sm font-medium">Describe your request</p>
-            </div>
-            <div class="p-5 space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Request title <span class="text-red-400">*</span></label>
-                <input id="req-title" type="text" placeholder="e.g. Update the opening hours on the homepage" class="w-full text-sm border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-transparent">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Details <span class="text-red-400">*</span></label>
-                <textarea id="req-description" rows="4" placeholder="Describe exactly what you need changed, and where on the website. The more detail, the faster we can deliver." class="w-full text-sm border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-transparent resize-none"></textarea>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Reference URL or files <span class="text-gray-400 font-normal">(optional)</span></label>
-                <input id="req-reference" type="text" placeholder="Paste a link or describe the file" class="w-full text-sm border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-transparent">
-              </div>
-            </div>
-            <div class="px-5 pb-5 flex gap-3">
-              <button id="back-to-1" class="flex-1 border border-gray-200 text-gray-500 text-sm py-3 rounded-lg hover:bg-gray-50 transition-all">← Back</button>
-              <button id="to-step-3" class="flex-1 bg-teal text-white text-sm font-medium py-3 rounded-lg hover-teal transition-all">Preview →</button>
-            </div>
-          </div>
-        </div>
-
-        <div id="step-3" class="hidden">
-          <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div class="px-5 py-4 border-b border-gray-100">
-              <p class="text-sm font-medium">Confirm your request</p>
-            </div>
-            <div class="p-5">
-              <div class="space-y-3 mb-5">
-                <div class="flex justify-between py-2 border-b border-gray-100 text-sm">
-                  <span class="text-gray-500">Type</span>
-                  <span class="font-medium capitalize" id="confirm-type">—</span>
-                </div>
-                <div class="flex justify-between py-2 border-b border-gray-100 text-sm">
-                  <span class="text-gray-500">Title</span>
-                  <span class="font-medium text-right max-w-xs" id="confirm-title">—</span>
-                </div>
-                <div class="flex justify-between py-2 border-b border-gray-100 text-sm">
-                  <span class="text-gray-500">Token cost</span>
-                  <span class="font-medium teal" id="confirm-cost">—</span>
-                </div>
-                <div class="flex justify-between py-2 text-sm">
-                  <span class="text-gray-500">Balance after</span>
-                  <span class="font-medium" id="confirm-after">—</span>
-                </div>
-              </div>
-              <div class="bg-gray-50 rounded-lg px-4 py-3 text-xs text-gray-500 mb-5">
-                Our team will review your request and begin work shortly. You'll receive an email when it's in progress and again when it's delivered.
-              </div>
-              <div id="error-msg" class="hidden text-xs text-red-600 mb-3"></div>
-              <div class="flex gap-3">
-                <button id="back-to-2" class="flex-1 border border-gray-200 text-gray-500 text-sm py-3 rounded-lg hover:bg-gray-50 transition-all">← Back</button>
-                <button id="submit-btn" class="flex-1 bg-teal text-white text-sm font-medium py-3 rounded-lg hover-teal transition-all flex items-center justify-center gap-2">Submit request</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="step-success" class="hidden">
-          <div class="bg-white border border-gray-200 rounded-xl p-10 text-center">
-            <div class="w-14 h-14 rounded-full bg-teal-soft flex items-center justify-center mx-auto mb-4">
-              <svg class="w-7 h-7 teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-            </div>
-            <h2 class="text-base font-semibold mb-2">Request submitted!</h2>
-            <p class="text-sm text-gray-400 mb-1">Ticket <strong id="success-ticket-num" class="text-gray-700"></strong> has been created.</p>
-            <p class="text-xs text-gray-400 mb-6">We'll email you when work begins.</p>
-            <div class="flex gap-3 justify-center">
-              <a href="/portal/tickets" class="text-sm border border-gray-200 px-5 py-2.5 rounded-lg hover:bg-gray-50 transition-all">View tickets</a>
-              <button id="new-request-btn" class="text-sm bg-teal text-white px-5 py-2.5 rounded-lg hover-teal transition-all">New request</button>
-            </div>
-          </div>
-        </div>
-      </main>
+<body>
+<div id="sidebar-overlay" class="sidebar-overlay"></div>
+<div class="app-shell">
+  <aside id="app-sidebar" class="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">Meverik<span class="brand-dot">.</span></div>
+      <div class="sidebar-sub" id="sidebar-business">Loading...</div>
     </div>
+    <nav class="sidebar-nav">
+      <a href="/portal" class="nav-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Overview</a>
+      <a href="/portal/request" class="nav-item is-active"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>New request</a>
+      <a href="/portal/tickets" class="nav-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>My tickets</a>
+      <a href="/portal/topup" class="nav-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Top up tokens</a>
+      <a href="/portal/billing" class="nav-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>Billing</a>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="user-name" id="sidebar-name">...</div>
+      <div class="user-plan" id="sidebar-plan">...</div>
+      <button id="logout-btn" class="btn btn-outline btn-block btn-sm">Sign out</button>
+    </div>
+  </aside>
+
+  <div class="app-body">
+    <header class="app-header">
+      <div class="app-header-left">
+        <button id="hamburger-btn" class="hamburger" aria-label="Open menu"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <h1>New request</h1>
+      </div>
+      <div class="token-chip">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span id="token-count">...</span>
+      </div>
+    </header>
+
+    <main class="app-main maxw-2xl">
+      <div id="blocked-banner" class="notice-danger mb-5 hidden">
+        <svg class="notice-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        <div>
+          <div class="notice-danger-title">Not enough tokens</div>
+          <div class="notice-danger-text" id="blocked-msg">You need more tokens to submit this request.</div>
+          <a href="/portal/topup" class="notice-danger-link">Top up tokens →</a>
+        </div>
+      </div>
+
+      <div class="stepper mb-6">
+        <div class="wstep">
+          <span class="wstep-badge is-active">1</span>
+          <span class="wstep-text is-active">Choose type</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="wstep">
+          <span class="wstep-badge" id="step-2-num">2</span>
+          <span class="wstep-text" id="step-2-text">Describe</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="wstep">
+          <span class="wstep-badge" id="step-3-num">3</span>
+          <span class="wstep-text" id="step-3-text">Confirm</span>
+        </div>
+      </div>
+
+      <div id="step-1">
+        <div class="card card-clip">
+          <div class="card-head"><span class="card-title">What kind of change do you need?</span></div>
+          <div class="complexity-list">
+            <div class="complexity-card selected" data-complexity="small" id="cc-small">
+              <div class="complexity-head">
+                <span class="complexity-name">Small</span>
+                <span class="complexity-cost">1 token</span>
+              </div>
+              <p class="complexity-desc">Text edits, image swaps, minor fixes, opening hours</p>
+            </div>
+            <div class="complexity-card" data-complexity="medium" id="cc-medium">
+              <div class="complexity-head">
+                <span class="complexity-name">Medium</span>
+                <span class="complexity-cost is-amber">3 tokens</span>
+              </div>
+              <p class="complexity-desc">New section, contact form, gallery, color changes</p>
+            </div>
+            <div class="complexity-card" data-complexity="large" id="cc-large">
+              <div class="complexity-head">
+                <span class="complexity-name">Large</span>
+                <span class="complexity-cost is-red">8 tokens</span>
+              </div>
+              <p class="complexity-desc">New page, booking system, third-party integration</p>
+            </div>
+          </div>
+          <div class="card-foot">
+            <div class="info-box mb-4">
+              You have <strong id="balance-display" class="text-teal">... tokens</strong>. This request costs <strong id="cost-display" class="text-teal">1 token</strong>. You'll have <strong id="after-display">...</strong> left.
+            </div>
+            <button id="to-step-2" class="btn btn-primary btn-block">Continue →</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="step-2" class="hidden">
+        <div class="card card-clip">
+          <div class="card-head"><span class="card-title">Describe your request</span></div>
+          <div class="card-fields">
+            <div>
+              <label class="field-label" for="req-title">Request title <span class="text-danger">*</span></label>
+              <input id="req-title" type="text" placeholder="e.g. Update the opening hours on the homepage" class="input">
+            </div>
+            <div>
+              <label class="field-label" for="req-description">Details <span class="text-danger">*</span></label>
+              <textarea id="req-description" rows="4" placeholder="Describe exactly what you need changed, and where on the website. The more detail, the faster we can deliver." class="textarea"></textarea>
+            </div>
+            <div>
+              <label class="field-label" for="req-reference">Reference URL or files <span class="cell-muted">(optional)</span></label>
+              <input id="req-reference" type="text" placeholder="Paste a link or describe the file" class="input">
+            </div>
+          </div>
+          <div class="card-foot btn-row">
+            <button id="back-to-1" class="btn btn-outline">← Back</button>
+            <button id="to-step-3" class="btn btn-primary">Preview →</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="step-3" class="hidden">
+        <div class="card card-clip">
+          <div class="card-head"><span class="card-title">Confirm your request</span></div>
+          <div class="card-pad">
+            <div class="detail-list mb-5">
+              <div class="detail-row">
+                <span class="detail-label">Type</span>
+                <span class="detail-val cap" id="confirm-type">—</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Title</span>
+                <span class="detail-val" id="confirm-title">—</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Token cost</span>
+                <span class="detail-val is-teal" id="confirm-cost">—</span>
+              </div>
+              <div class="detail-row no-border">
+                <span class="detail-label">Balance after</span>
+                <span class="detail-val" id="confirm-after">—</span>
+              </div>
+            </div>
+            <div class="info-box mb-5">
+              Our team will review your request and begin work shortly. You'll receive an email when it's in progress and again when it's delivered.
+            </div>
+            <div id="error-msg" class="error-text mb-3 hidden"></div>
+            <div class="btn-row">
+              <button id="back-to-2" class="btn btn-outline">← Back</button>
+              <button id="submit-btn" class="btn btn-primary">Submit request</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="step-success" class="hidden">
+        <div class="card success-card">
+          <div class="success-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <h2 class="success-title">Request submitted!</h2>
+          <p class="success-line mb-1">Ticket <strong id="success-ticket-num" class="cell-strong"></strong> has been created.</p>
+          <p class="cell-muted mb-6">We'll email you when work begins.</p>
+          <div class="btn-row-center">
+            <a href="/portal/tickets" class="btn btn-outline">View tickets</a>
+            <button id="new-request-btn" class="btn btn-primary">New request</button>
+          </div>
+        </div>
+      </div>
+    </main>
   </div>
-  <script src="/js/portal-request.js"></script>
+</div>
+<script src="/js/portal-request.js"></script>
 <script>
   (function(){
     var btn = document.getElementById('hamburger-btn');
@@ -201,6 +190,6 @@
     if(ov) ov.addEventListener('click', closeMenu);
     if(sb) sb.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
   })();
-  </script>
+</script>
 </body>
 </html>

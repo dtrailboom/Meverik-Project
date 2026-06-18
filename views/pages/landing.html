@@ -4,274 +4,258 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meverik — Websites for Small Businesses</title>
-  <meta name="description" content="A professional website for your small business, without the agency price tag. Submit a request, we build it. Simple monthly subscription.">
+  <meta name="description" content="TEST small business, without the agency price tag. Submit a request, we build it. Simple monthly subscription.">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    html { scroll-behavior: smooth; }
-  </style>
 </head>
-<body class="bg-white text-gray-900">
+<body class="lp-page">
 
-  <!-- NAV -->
-  <nav class="sticky top-0 z-50 bg-white border-b border-gray-100">
-    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="text-lg font-semibold">Meverik<span class="teal">.</span></div>
-      <div class="hidden md:flex items-center gap-8 text-sm text-gray-500">
-        <a href="#how-it-works" class="hover:text-gray-900 transition-colors">How it works</a>
-        <a href="#features" class="hover:text-gray-900 transition-colors">Features</a>
-        <a href="#pricing" class="hover:text-gray-900 transition-colors">Pricing</a>
-        <a href="#testimonials" class="hover:text-gray-900 transition-colors">Clients</a>
+  <nav class="lp-nav">
+    <div class="lp-nav-inner">
+      <div class="brand">Meverik<span class="brand-dot">.</span></div>
+      <div class="lp-nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#testimonials">Clients</a>
       </div>
-      <div class="flex items-center gap-3">
-        <a href="/auth/login" class="text-sm text-gray-500 hover:text-gray-900 px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-all">Log in</a>
-        <a href="/auth/register" class="text-sm font-medium text-white bg-teal px-4 py-2 rounded-lg hover-teal transition-all">Get started</a>
+      <div class="lp-nav-actions">
+        <button id="lp-menu-btn" class="lp-menu-btn" aria-label="Open menu" aria-expanded="false">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <a href="/auth/login" class="btn btn-outline btn-nav lp-nav-login">Log in</a>
+        <a href="/auth/register" class="btn btn-primary btn-nav">Get started</a>
       </div>
+    </div>
+    <div id="lp-mobile-menu" class="lp-mobile-menu">
+      <a href="#how-it-works">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#testimonials">Clients</a>
+      <a href="/auth/login" class="lp-mobile-login">Log in</a>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="pt-20 pb-16 px-6 text-center border-b border-gray-100">
-    <div class="max-w-2xl mx-auto">
-      <div class="inline-flex items-center gap-2 text-xs font-medium text-green-700 bg-green-50 border border-green-200 rounded-full px-4 py-1.5 mb-8">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+  <section class="lp-hero">
+    <div class="lp-hero-inner">
+      <div class="lp-pill">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
         Your website, live in days — not months
       </div>
-      <h1 class="text-4xl md:text-5xl font-semibold leading-tight mb-5 tracking-tight">
+      <h1 class="lp-h1">
         A professional website for your<br>
-        <span class="teal">small business</span>,<br>
+        <span class="text-teal">small business</span>,<br>
         without the agency price tag
       </h1>
-      <p class="text-gray-500 text-lg mb-8 leading-relaxed">
+      <p class="lp-lead">
         Submit a request, we build it. One simple subscription.<br>
         Change anything, anytime — as long as you have tokens.
       </p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
-        <a href="/auth/register" class="w-full sm:w-auto text-white bg-teal font-medium px-7 py-3.5 rounded-lg hover-teal transition-all text-sm">
-          Get your website →
-        </a>
-        <a href="#how-it-works" class="w-full sm:w-auto text-gray-600 border border-gray-200 px-7 py-3.5 rounded-lg hover:bg-gray-50 transition-all text-sm">
-          See how it works
-        </a>
+      <div class="lp-cta-row mb-8">
+        <a href="/auth/register" class="btn btn-primary btn-lg">Get your website →</a>
+        <a href="#how-it-works" class="btn btn-outline btn-lg">See how it works</a>
       </div>
-      <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-gray-400">
-        <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>No setup fees</span>
-        <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Live in 3–5 days</span>
-        <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Cancel anytime</span>
-        <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>24 businesses launched</span>
+      <div class="lp-trust">
+        <span><svg class="lp-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>No setup fees</span>
+        <span><svg class="lp-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Live in 3–5 days</span>
+        <span><svg class="lp-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Cancel anytime</span>
+        <span><svg class="lp-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>24 businesses launched</span>
       </div>
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section id="how-it-works" class="py-20 px-6 border-b border-gray-100">
-    <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-14">
-        <p class="text-xs font-semibold teal uppercase tracking-widest mb-3">How it works</p>
-        <h2 class="text-3xl font-semibold mb-3">From request to live — simplified</h2>
-        <p class="text-gray-500 text-sm max-w-md mx-auto leading-relaxed">Four steps. No technical knowledge needed. No back-and-forth with developers.</p>
+  <section id="how-it-works" class="lp-section">
+    <div class="lp-section-inner">
+      <div class="lp-section-head is-center">
+        <p class="lp-eyebrow">How it works</p>
+        <h2 class="lp-h2">From request to live — simplified</h2>
+        <p class="lp-section-lead is-narrow">Four steps. No technical knowledge needed. No back-and-forth with developers.</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="text-center p-6">
-          <div class="w-10 h-10 rounded-full bg-teal-soft border border-green-200 flex items-center justify-center text-sm font-semibold teal mx-auto mb-4">1</div>
-          <div class="text-2xl teal mb-3">
-            <svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          </div>
-          <h3 class="font-medium text-sm mb-2">Submit a request</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">Fill in a simple form describing what you need. No jargon, no spec docs.</p>
+      <div class="lp-grid-4">
+        <div class="lp-step">
+          <div class="lp-step-num">1</div>
+          <div class="lp-step-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+          <h3 class="lp-card-title">Submit a request</h3>
+          <p class="lp-card-text">Fill in a simple form describing what you need. No jargon, no spec docs.</p>
         </div>
-        <div class="text-center p-6">
-          <div class="w-10 h-10 rounded-full bg-teal-soft border border-green-200 flex items-center justify-center text-sm font-semibold teal mx-auto mb-4">2</div>
-          <div class="teal mb-3">
-            <svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>
-          </div>
-          <h3 class="font-medium text-sm mb-2">Ticket created</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">A support ticket is instantly opened and assigned to our team.</p>
+        <div class="lp-step">
+          <div class="lp-step-num">2</div>
+          <div class="lp-step-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg></div>
+          <h3 class="lp-card-title">Ticket created</h3>
+          <p class="lp-card-text">A support ticket is instantly opened and assigned to our team.</p>
         </div>
-        <div class="text-center p-6">
-          <div class="w-10 h-10 rounded-full bg-teal-soft border border-green-200 flex items-center justify-center text-sm font-semibold teal mx-auto mb-4">3</div>
-          <div class="teal mb-3">
-            <svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-          </div>
-          <h3 class="font-medium text-sm mb-2">We build it</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">Our developers build or update your site quickly and professionally.</p>
+        <div class="lp-step">
+          <div class="lp-step-num">3</div>
+          <div class="lp-step-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg></div>
+          <h3 class="lp-card-title">We build it</h3>
+          <p class="lp-card-text">Our developers build or update your site quickly and professionally.</p>
         </div>
-        <div class="text-center p-6">
-          <div class="w-10 h-10 rounded-full bg-teal-soft border border-green-200 flex items-center justify-center text-sm font-semibold teal mx-auto mb-4">4</div>
-          <div class="teal mb-3">
-            <svg class="w-7 h-7 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3l14 9-14 9V3z"/></svg>
-          </div>
-          <h3 class="font-medium text-sm mb-2">It goes live</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">Your finished website is delivered. You get an email the moment it's ready.</p>
+        <div class="lp-step">
+          <div class="lp-step-num">4</div>
+          <div class="lp-step-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3l14 9-14 9V3z"/></svg></div>
+          <h3 class="lp-card-title">It goes live</h3>
+          <p class="lp-card-text">Your finished website is delivered. You get an email the moment it's ready.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section id="features" class="py-20 px-6 border-b border-gray-100">
-    <div class="max-w-5xl mx-auto">
-      <div class="mb-12">
-        <p class="text-xs font-semibold teal uppercase tracking-widest mb-3">Why Meverik</p>
-        <h2 class="text-3xl font-semibold mb-3">Built for business owners,<br>not developers</h2>
-        <p class="text-gray-500 text-sm max-w-md leading-relaxed">We remove every obstacle between you and a professional online presence.</p>
+  <section id="features" class="lp-section">
+    <div class="lp-section-inner">
+      <div class="lp-section-head">
+        <p class="lp-eyebrow">Why Meverik</p>
+        <h2 class="lp-h2">Built for business owners,<br>not developers</h2>
+        <p class="lp-section-lead">We remove every obstacle between you and a professional online presence.</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-gray-50 rounded-xl p-6">
-          <div class="teal mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-          <h3 class="font-medium text-sm mb-2">Fast turnaround</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">Most requests are delivered within 1–3 business days. No waiting weeks for an agency.</p>
+      <div class="lp-grid-3">
+        <div class="lp-feature">
+          <div class="lp-feature-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <h3 class="lp-card-title">Fast turnaround</h3>
+          <p class="lp-card-text">Most requests are delivered within 1–3 business days. No waiting weeks for an agency.</p>
         </div>
-        <div class="bg-gray-50 rounded-xl p-6">
-          <div class="teal mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-          <h3 class="font-medium text-sm mb-2">Token-based changes</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">Every plan includes monthly tokens. Small fixes cost 1, big changes cost more. Simple and fair.</p>
+        <div class="lp-feature">
+          <div class="lp-feature-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <h3 class="lp-card-title">Token-based changes</h3>
+          <p class="lp-card-text">Every plan includes monthly tokens. Small fixes cost 1, big changes cost more. Simple and fair.</p>
         </div>
-        <div class="bg-gray-50 rounded-xl p-6">
-          <div class="teal mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div>
-          <h3 class="font-medium text-sm mb-2">Mobile-first design</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">Every website we build looks great on phones, tablets, and desktops — always.</p>
+        <div class="lp-feature">
+          <div class="lp-feature-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div>
+          <h3 class="lp-card-title">Mobile-first design</h3>
+          <p class="lp-card-text">Every website we build looks great on phones, tablets, and desktops — always.</p>
         </div>
-        <div class="bg-gray-50 rounded-xl p-6">
-          <div class="teal mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
-          <h3 class="font-medium text-sm mb-2">Plain language, always</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">No technical jargon. Talk to us like a person, not an IT department.</p>
+        <div class="lp-feature">
+          <div class="lp-feature-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
+          <h3 class="lp-card-title">Plain language, always</h3>
+          <p class="lp-card-text">No technical jargon. Talk to us like a person, not an IT department.</p>
         </div>
-        <div class="bg-gray-50 rounded-xl p-6">
-          <div class="teal mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
-          <h3 class="font-medium text-sm mb-2">SEO-ready out of the box</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">We build for search engines from day one so customers can find you on Google.</p>
+        <div class="lp-feature">
+          <div class="lp-feature-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+          <h3 class="lp-card-title">SEO-ready out of the box</h3>
+          <p class="lp-card-text">We build for search engines from day one so customers can find you on Google.</p>
         </div>
-        <div class="bg-gray-50 rounded-xl p-6">
-          <div class="teal mb-3"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
-          <h3 class="font-medium text-sm mb-2">Hosting included</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">Hosting, SSL certificate, and your custom domain are all handled. Nothing extra to set up.</p>
+        <div class="lp-feature">
+          <div class="lp-feature-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+          <h3 class="lp-card-title">Hosting included</h3>
+          <p class="lp-card-text">Hosting, SSL certificate, and your custom domain are all handled. Nothing extra to set up.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PRICING -->
-  <section id="pricing" class="py-20 px-6 border-b border-gray-100">
-    <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-14">
-        <p class="text-xs font-semibold teal uppercase tracking-widest mb-3">Pricing</p>
-        <h2 class="text-3xl font-semibold mb-3">Simple, subscription-based pricing</h2>
-        <p class="text-gray-500 text-sm max-w-md mx-auto leading-relaxed">Pick a plan and get tokens every month. Need more? Top up anytime.</p>
+  <section id="pricing" class="lp-section">
+    <div class="lp-section-inner">
+      <div class="lp-section-head is-center">
+        <p class="lp-eyebrow">Pricing</p>
+        <h2 class="lp-h2">Simple, subscription-based pricing</h2>
+        <p class="lp-section-lead is-narrow">Pick a plan and get tokens every month. Need more? Top up anytime.</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
+      <div class="lp-grid-3 mb-12">
 
-        <!-- Starter -->
-        <div class="border border-gray-200 rounded-2xl p-7">
-          <h3 class="font-semibold text-base mb-1">Starter</h3>
-          <p class="text-xs text-gray-400 mb-5">For businesses that need occasional updates</p>
-          <div class="mb-1"><span class="text-3xl font-semibold">€29</span><span class="text-gray-400 text-sm">/mo</span></div>
-          <p class="text-xs font-medium teal mb-6">10 tokens per month</p>
-          <ul class="space-y-3 mb-7 text-sm text-gray-500">
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Website build included</li>
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Up to 10 small changes/mo</li>
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Hosting + SSL included</li>
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Email support</li>
+        <div class="lp-plan">
+          <h3 class="lp-plan-name">Starter</h3>
+          <p class="lp-plan-desc">For businesses that need occasional updates</p>
+          <div class="lp-price"><span class="lp-price-num">€29</span><span class="lp-price-unit">/mo</span></div>
+          <p class="lp-plan-tokens">10 tokens per month</p>
+          <ul class="lp-plan-list">
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Website build included</li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Up to 10 small changes/mo</li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Hosting + SSL included</li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Email support</li>
           </ul>
-          <a href="/auth/register?plan=starter" class="block text-center text-sm font-medium teal bg-teal-soft border border-teal rounded-lg py-2.5 hover:bg-green-100 transition-all">Get started</a>
+          <a href="/auth/register?plan=starter" class="btn btn-teal-soft btn-block">Get started</a>
         </div>
 
-        <!-- Growth (popular) -->
-        <div class="border-2 border-teal rounded-2xl p-7 relative">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-soft border border-teal text-xs font-semibold teal px-3 py-1 rounded-full">Most popular</div>
-          <h3 class="font-semibold text-base mb-1">Growth</h3>
-          <p class="text-xs text-gray-400 mb-5">For active businesses making regular changes</p>
-          <div class="mb-1"><span class="text-3xl font-semibold">€59</span><span class="text-gray-400 text-sm">/mo</span></div>
-          <p class="text-xs font-medium teal mb-6">25 tokens per month</p>
-          <ul class="space-y-3 mb-7 text-sm text-gray-500">
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Everything in Starter</li>
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>25 tokens — small + medium changes</li>
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Priority ticket queue</li>
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Token history in your portal</li>
+        <div class="lp-plan is-popular">
+          <div class="lp-plan-badge">Most popular</div>
+          <h3 class="lp-plan-name">Growth</h3>
+          <p class="lp-plan-desc">For active businesses making regular changes</p>
+          <div class="lp-price"><span class="lp-price-num">€59</span><span class="lp-price-unit">/mo</span></div>
+          <p class="lp-plan-tokens">25 tokens per month</p>
+          <ul class="lp-plan-list">
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Everything in Starter</li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>25 tokens — small + medium changes</li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Priority ticket queue</li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Token history in your portal</li>
           </ul>
-          <a href="/auth/register?plan=growth" class="block text-center text-sm font-medium text-white bg-teal rounded-lg py-2.5 hover-teal transition-all">Get started</a>
+          <a href="/auth/register?plan=growth" class="btn btn-primary btn-block">Get started</a>
         </div>
 
-        <!-- Pro -->
-        <div class="border border-gray-200 rounded-2xl p-7">
-          <h3 class="font-semibold text-base mb-1">Pro</h3>
-          <p class="text-xs text-gray-400 mb-5">For businesses that update their site frequently</p>
-          <div class="mb-1"><span class="text-3xl font-semibold">€99</span><span class="text-gray-400 text-sm">/mo</span></div>
-          <p class="text-xs font-medium teal mb-6">60 tokens per month</p>
-          <ul class="space-y-3 mb-7 text-sm text-gray-500">
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Everything in Growth</li>
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>60 tokens — large builds included</li>
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Fastest delivery SLA</li>
-            <li class="flex items-start gap-2"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Self-serve plan upgrades</li>
+        <div class="lp-plan">
+          <h3 class="lp-plan-name">Pro</h3>
+          <p class="lp-plan-desc">For businesses that update their site frequently</p>
+          <div class="lp-price"><span class="lp-price-num">€99</span><span class="lp-price-unit">/mo</span></div>
+          <p class="lp-plan-tokens">60 tokens per month</p>
+          <ul class="lp-plan-list">
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Everything in Growth</li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>60 tokens — large builds included</li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Fastest delivery SLA</li>
+            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Self-serve plan upgrades</li>
           </ul>
-          <a href="/auth/register?plan=pro" class="block text-center text-sm font-medium teal bg-teal-soft border border-teal rounded-lg py-2.5 hover:bg-green-100 transition-all">Get started</a>
+          <a href="/auth/register?plan=pro" class="btn btn-teal-soft btn-block">Get started</a>
         </div>
 
       </div>
 
-      <!-- Top-up packs -->
-      <div class="text-center">
-        <p class="text-sm font-medium text-gray-700 mb-4">Need more tokens mid-month? Top up instantly.</p>
-        <div class="inline-grid grid-cols-3 gap-3">
-          <div class="bg-gray-50 border border-gray-200 rounded-xl px-6 py-4 text-center">
-            <div class="text-xl font-semibold">5</div>
-            <div class="text-xs text-gray-400 mb-1">tokens</div>
-            <div class="text-sm font-semibold teal">€9</div>
+      <div class="lp-topup">
+        <p class="signup-step-title">Need more tokens mid-month? Top up instantly.</p>
+        <div class="lp-topup-grid">
+          <div class="lp-topup-pack">
+            <div class="lp-topup-num">5</div>
+            <div class="lp-topup-unit">tokens</div>
+            <div class="pack-price">€9</div>
           </div>
-          <div class="bg-gray-50 border border-gray-200 rounded-xl px-6 py-4 text-center">
-            <div class="text-xl font-semibold">15</div>
-            <div class="text-xs text-gray-400 mb-1">tokens</div>
-            <div class="text-sm font-semibold teal">€19</div>
+          <div class="lp-topup-pack">
+            <div class="lp-topup-num">15</div>
+            <div class="lp-topup-unit">tokens</div>
+            <div class="pack-price">€19</div>
           </div>
-          <div class="bg-gray-50 border border-gray-200 rounded-xl px-6 py-4 text-center">
-            <div class="text-xl font-semibold">35</div>
-            <div class="text-xs text-gray-400 mb-1">tokens</div>
-            <div class="text-sm font-semibold teal">€39</div>
+          <div class="lp-topup-pack">
+            <div class="lp-topup-num">35</div>
+            <div class="lp-topup-unit">tokens</div>
+            <div class="pack-price">€39</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section id="testimonials" class="py-20 px-6 border-b border-gray-100">
-    <div class="max-w-5xl mx-auto">
-      <div class="mb-12">
-        <p class="text-xs font-semibold teal uppercase tracking-widest mb-3">What clients say</p>
-        <h2 class="text-3xl font-semibold mb-3">Real businesses, real results</h2>
-        <p class="text-gray-500 text-sm leading-relaxed">From bakeries to barbers — small businesses across Austria trust Meverik.</p>
+  <section id="testimonials" class="lp-section">
+    <div class="lp-section-inner">
+      <div class="lp-section-head">
+        <p class="lp-eyebrow">What clients say</p>
+        <h2 class="lp-h2">Real businesses, real results</h2>
+        <p class="lp-section-lead">From bakeries to barbers — small businesses across Austria trust Meverik.</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div class="bg-gray-50 rounded-2xl p-6">
-          <p class="text-sm text-gray-500 leading-relaxed italic mb-5">"We went from no website to fully live in 4 days. I didn't have to explain anything technical — they just got it done."</p>
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center text-xs font-semibold text-green-700">BH</div>
+      <div class="lp-grid-3">
+        <div class="lp-quote">
+          <p class="lp-quote-text">"We went from no website to fully live in 4 days. I didn't have to explain anything technical — they just got it done."</p>
+          <div class="lp-author">
+            <div class="lp-avatar lp-avatar-green">BH</div>
             <div>
-              <div class="text-sm font-medium">Bella Huber</div>
-              <div class="text-xs text-gray-400">Bella's Bakery, Vienna</div>
+              <div class="lp-author-name">Bella Huber</div>
+              <div class="lp-author-role">Bella's Bakery, Vienna</div>
             </div>
           </div>
         </div>
-        <div class="bg-gray-50 rounded-2xl p-6">
-          <p class="text-sm text-gray-500 leading-relaxed italic mb-5">"I update my price list almost every month. With the token system I always know exactly what it'll cost. No surprises."</p>
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-purple-100 flex items-center justify-center text-xs font-semibold text-purple-700">NK</div>
+        <div class="lp-quote">
+          <p class="lp-quote-text">"I update my price list almost every month. With the token system I always know exactly what it'll cost. No surprises."</p>
+          <div class="lp-author">
+            <div class="lp-avatar lp-avatar-purple">NK</div>
             <div>
-              <div class="text-sm font-medium">Nils Karlsson</div>
-              <div class="text-xs text-gray-400">Nordic Cuts, Vienna</div>
+              <div class="lp-author-name">Nils Karlsson</div>
+              <div class="lp-author-role">Nordic Cuts, Vienna</div>
             </div>
           </div>
         </div>
-        <div class="bg-gray-50 rounded-2xl p-6">
-          <p class="text-sm text-gray-500 leading-relaxed italic mb-5">"Agencies wanted €4,000 upfront. Meverik had my site live for €59 a month. It's the best business decision I've made."</p>
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-xs font-semibold text-blue-700">ZM</div>
+        <div class="lp-quote">
+          <p class="lp-quote-text">"Agencies wanted €4,000 upfront. Meverik had my site live for €59 a month. It's the best business decision I've made."</p>
+          <div class="lp-author">
+            <div class="lp-avatar lp-avatar-blue">ZM</div>
             <div>
-              <div class="text-sm font-medium">Zara Müller</div>
-              <div class="text-xs text-gray-400">Zara Yoga Studio, Graz</div>
+              <div class="lp-author-name">Zara Müller</div>
+              <div class="lp-author-role">Zara Yoga Studio, Graz</div>
             </div>
           </div>
         </div>
@@ -279,31 +263,46 @@
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-20 px-6 bg-gray-50">
-    <div class="max-w-xl mx-auto text-center">
-      <p class="text-xs font-semibold teal uppercase tracking-widest mb-4">Ready to launch?</p>
-      <h2 class="text-3xl font-semibold mb-4">Your business deserves a website that works</h2>
-      <p class="text-gray-500 text-sm mb-8 leading-relaxed">Join 24 small businesses already online with Meverik. No agency, no tech headaches, no hidden costs.</p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a href="/auth/register" class="w-full sm:w-auto text-white bg-teal font-medium px-7 py-3.5 rounded-lg hover-teal transition-all text-sm">Start today →</a>
-        <a href="#pricing" class="w-full sm:w-auto text-gray-600 border border-gray-200 bg-white px-7 py-3.5 rounded-lg hover:bg-gray-50 transition-all text-sm">View pricing</a>
+  <section class="lp-cta-section">
+    <div class="lp-cta-inner">
+      <p class="lp-eyebrow mb-4">Ready to launch?</p>
+      <h2 class="lp-h2 mb-4">Your business deserves a website that works</h2>
+      <p class="lp-section-lead mb-8">Join 24 small businesses already online with Meverik. No agency, no tech headaches, no hidden costs.</p>
+      <div class="lp-cta-row">
+        <a href="/auth/register" class="btn btn-primary btn-lg">Start today →</a>
+        <a href="#pricing" class="btn btn-outline is-white btn-lg">View pricing</a>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="py-8 px-6 border-t border-gray-100">
-    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="text-sm font-semibold">Meverik<span class="teal">.</span></div>
-      <div class="text-xs text-gray-400">© 2026 Meverik. Vienna, Austria.</div>
-      <div class="flex gap-5 text-xs text-gray-400">
-        <a href="/privacy" class="hover:text-gray-600">Privacy</a>
-        <a href="/terms" class="hover:text-gray-600">Terms</a>
-        <a href="mailto:hello@meverik.com" class="hover:text-gray-600">Contact</a>
+  <footer class="lp-footer">
+    <div class="lp-footer-inner">
+      <div class="lp-footer-brand">Meverik<span class="brand-dot">.</span></div>
+      <div class="lp-footer-text">© 2026 Meverik. Vienna, Austria.</div>
+      <div class="lp-footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="mailto:hello@meverik.com">Contact</a>
       </div>
     </div>
   </footer>
 
+  <script>
+    (function(){
+      var btn = document.getElementById('lp-menu-btn');
+      var menu = document.getElementById('lp-mobile-menu');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', function(){
+        var isOpen = menu.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      menu.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){
+          menu.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

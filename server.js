@@ -34,6 +34,9 @@ app.use('/portal', require('./src/routes/portalRoutes'));
 app.use('/admin', require('./src/routes/adminRoutes'));
 app.use('/webhooks', require('./src/routes/webhookRoutes'));
 
+// Domain availability — third external REST API (C1), public (used on register page)
+app.use('/api/domain', require('./src/routes/domainRoutes'));
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'views/pages/404.html'));
