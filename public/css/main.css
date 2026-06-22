@@ -1766,3 +1766,63 @@ svg { width: 1rem; height: 1rem; }
   align-items: center;
   gap: 1rem;
 }
+
+/* === Werbung / Ad-Section (Landing) === */
+.lp-ad-section {
+  padding: 1.5rem 1.5rem 0;
+}
+.lp-ad-inner {
+  max-width: 64rem;
+  margin: 0 auto;
+  text-align: center;
+}
+.lp-ad-label {
+  display: block;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  margin-bottom: 0.5rem;
+}
+.lp-ad-inner .adsbygoogle {
+  min-height: 90px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+}
+
+/* === Cookie-Consent-Banner === */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.06);
+  padding: 1rem 1.5rem;
+}
+.cookie-banner-inner {
+  max-width: 64rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.cookie-banner-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+  min-width: 15rem;
+}
+.cookie-banner-text a { color: var(--teal); }
+.cookie-banner-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
