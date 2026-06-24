@@ -10,4 +10,12 @@ router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../views/pages/landing.html'));
 });
 
+router.get('/privacy', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../views/pages/privacy.html'));
+});
+
+router.get('/terms', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../views/pages/terms.html'));
+});
+
 module.exports = router;
