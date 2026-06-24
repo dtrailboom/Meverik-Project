@@ -1826,3 +1826,55 @@ svg { width: 1rem; height: 1rem; }
   gap: 0.5rem;
   flex-shrink: 0;
 }
+
+/* === Legal-Seiten (Privacy / Terms) === */
+.legal-main {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+.legal-doc h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.legal-doc h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 2rem 0 0.5rem;
+}
+.legal-doc p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+.legal-doc a { color: var(--teal); }
+.legal-updated {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  margin-bottom: 2rem;
+}
+.legal-note {
+  margin-top: 2.5rem;
+  padding: 0.875rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+.legal-lang-btn {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.legal-lang-btn:hover { border-color: var(--text-faint); }

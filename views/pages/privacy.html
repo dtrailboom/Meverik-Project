@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function(){
+      try {
+        if (localStorage.getItem('meverik-theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch(e){}
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Meverik</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+<nav class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand">Meverik<span class="brand-dot">.</span></a>
+    <div class="topbar-right">
+      <button id="lang-toggle" class="legal-lang-btn" type="button" aria-label="Switch language">DE</button>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="legal-main">
+  <!-- ENGLISH -->
+  <article class="legal-doc" data-lang="en">
+    <h1>Privacy Policy</h1>
+    <p class="legal-updated">Last updated: [DATE]</p>
+
+    <p>This Privacy Policy explains how [Meverik] ("we", "us") collects and uses
+      personal data when you use Meverik at [meverik.at]. We process data in
+      accordance with the EU General Data Protection Regulation (GDPR).</p>
+
+    <h2>1. Controller</h2>
+    <p>[Your name / company]<br>[Street address]<br>[Postal code, City], Austria<br>
+      Email: <a href="mailto:hello@meverik.at">[hello@meverik.at]</a></p>
+
+    <h2>2. What data we collect</h2>
+    <p>Account data (name, email, business name), website information you submit, support
+      tickets, and payment-related data. We also process technical data such as IP address
+      and browser information when you visit the site.</p>
+
+    <h2>3. Payment processing (Stripe)</h2>
+    <p>Payments are handled by Stripe. We do not store your full card details. Stripe processes
+      your payment data as a separate controller/processor. See Stripe's privacy policy for details.</p>
+
+    <h2>4. Email (Resend)</h2>
+    <p>Transactional emails (e.g. confirmations, password resets) are sent via our email
+      provider. Your email address is processed for this purpose.</p>
+
+    <h2>5. Advertising &amp; cookies (Google AdSense)</h2>
+    <p>We use Google AdSense to display advertising. Google and its partners may use cookies
+      to serve ads based on prior visits to this and other websites. In the EEA, UK and
+      Switzerland, ads and ad cookies are only loaded after you give consent via our consent
+      banner. You can withdraw consent at any time. For more information, see
+      <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google's advertising policies</a>.</p>
+
+    <h2>6. Legal bases</h2>
+    <p>We process data to perform our contract with you (Art. 6(1)(b) GDPR), based on your
+      consent for advertising cookies (Art. 6(1)(a) GDPR), and based on our legitimate
+      interests in operating and securing the Service (Art. 6(1)(f) GDPR).</p>
+
+    <h2>7. Your rights</h2>
+    <p>You have the right to access, rectify, erase, restrict and port your data, and to object
+      to processing. To exercise these rights, contact us at
+      <a href="mailto:hello@meverik.at">[hello@meverik.at]</a>. You may also lodge a complaint
+      with the Austrian Data Protection Authority (Datenschutzbehörde).</p>
+
+    <h2>8. Data retention</h2>
+    <p>We keep personal data only as long as necessary for the purposes described or as required
+      by law.</p>
+
+    <h2>9. Changes</h2>
+    <p>We may update this policy. The current version is always available on this page.</p>
+
+    <p class="legal-note">This document is a template and not legal advice. Please have it
+      reviewed before relying on it in production.</p>
+
+    <p><a href="/" class="link-accent">← Back to home</a></p>
+  </article>
+
+  <!-- DEUTSCH -->
+  <article class="legal-doc hidden" data-lang="de">
+    <h1>Datenschutzerklärung</h1>
+    <p class="legal-updated">Zuletzt aktualisiert: [26.06.2026]</p>
+
+    <p>Diese Datenschutzerklärung erläutert, wie [Meverik] („wir", „uns") personenbezogene
+      Daten verarbeitet, wenn Sie Meverik unter [meverik.at] nutzen. Die Verarbeitung
+      erfolgt gemäß der Datenschutz-Grundverordnung (DSGVO).</p>
+
+    <h2>1. Verantwortlicher</h2>
+    <p>[Dein Name / Firma]<br>[Straße]<br>[PLZ, Ort], Österreich<br>
+      E-Mail: <a href="mailto:hello@meverik.at">[hello@meverik.at]</a></p>
+
+    <h2>2. Welche Daten wir erheben</h2>
+    <p>Kontodaten (Name, E-Mail, Firmenname), die von Ihnen übermittelten Website-Informationen,
+      Support-Tickets sowie zahlungsbezogene Daten. Außerdem verarbeiten wir technische Daten wie
+      IP-Adresse und Browser-Informationen beim Besuch der Seite.</p>
+
+    <h2>3. Zahlungsabwicklung (Stripe)</h2>
+    <p>Zahlungen werden über Stripe abgewickelt. Wir speichern keine vollständigen Kartendaten.
+      Stripe verarbeitet Ihre Zahlungsdaten als eigener Verantwortlicher/Auftragsverarbeiter.
+      Details siehe Datenschutzerklärung von Stripe.</p>
+
+    <h2>4. E-Mail (Resend)</h2>
+    <p>Transaktions-E-Mails (z. B. Bestätigungen, Passwort-Zurücksetzung) werden über unseren
+      E-Mail-Dienstleister versendet. Ihre E-Mail-Adresse wird zu diesem Zweck verarbeitet.</p>
+
+    <h2>5. Werbung &amp; Cookies (Google AdSense)</h2>
+    <p>Wir nutzen Google AdSense zur Anzeige von Werbung. Google und Partner können Cookies
+      verwenden, um Anzeigen basierend auf früheren Besuchen auszuliefern. Im EWR, in UK und der
+      Schweiz werden Anzeigen und Werbe-Cookies erst nach Ihrer Einwilligung über unser
+      Einwilligungs-Banner geladen. Sie können die Einwilligung jederzeit widerrufen. Weitere
+      Informationen in den
+      <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Werberichtlinien von Google</a>.</p>
+
+    <h2>6. Rechtsgrundlagen</h2>
+    <p>Wir verarbeiten Daten zur Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO), auf Grundlage
+      Ihrer Einwilligung für Werbe-Cookies (Art. 6 Abs. 1 lit. a DSGVO) sowie auf Basis unseres
+      berechtigten Interesses am Betrieb und der Sicherheit des Dienstes (Art. 6 Abs. 1 lit. f DSGVO).</p>
+
+    <h2>7. Ihre Rechte</h2>
+    <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung und Übertragbarkeit
+      Ihrer Daten sowie das Recht auf Widerspruch. Zur Ausübung kontaktieren Sie uns unter
+      <a href="mailto:hello@meverik.at">[hello@meverik.at]</a>. Sie können sich außerdem bei der
+      österreichischen Datenschutzbehörde beschweren.</p>
+
+    <h2>8. Speicherdauer</h2>
+    <p>Wir speichern personenbezogene Daten nur so lange, wie es für die beschriebenen Zwecke
+      erforderlich oder gesetzlich vorgeschrieben ist.</p>
+
+    <h2>9. Änderungen</h2>
+    <p>Wir können diese Erklärung aktualisieren. Die aktuelle Version ist stets auf dieser Seite
+      verfügbar.</p>
+
+    <p class="legal-note">Dieses Dokument ist eine Vorlage und keine Rechtsberatung. Bitte lassen
+      Sie es vor dem Produktiveinsatz prüfen.</p>
+
+    <p><a href="/" class="link-accent">← Zurück zur Startseite</a></p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  © 2026 Meverik · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="mailto:hello@meverik.at">Contact</a>
+</footer>
+
+<script src="/js/theme-toggle.js"></script>
+<script src="/js/legal-lang.js"></script>
+</body>
+</html>
